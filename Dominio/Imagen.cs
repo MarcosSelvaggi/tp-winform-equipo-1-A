@@ -12,7 +12,7 @@ namespace Dominio
         public int IdArticulo { get; set; }
         public string ImagenUrl { get; set; }
 
-        
+        public Imagen() { }
         public Imagen(int idArticulo, string imagenUrl)
         {
             IdArticulo = idArticulo;
