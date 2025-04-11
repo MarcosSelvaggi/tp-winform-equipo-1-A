@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI", "UI\UI.csproj", "{EA1D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dominio", "Dominio\Dominio.csproj", "{B6F6011D-ED59-48F9-9011-4F76F10D77B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Negocio", "Datos\Negocio.csproj", "{4D565C9C-FE60-4227-BE79-4884F2C6D223}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Negocio", "Negocio\Negocio.csproj", "{4D565C9C-FE60-4227-BE79-4884F2C6D223}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

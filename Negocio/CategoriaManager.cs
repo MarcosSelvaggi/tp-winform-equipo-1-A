@@ -4,10 +4,9 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
-using Datos;
 using Dominio; 
 
-namespace Dominio
+namespace Negocio
 {
     internal class CategoriaManager
     {
@@ -16,7 +15,7 @@ namespace Dominio
 
             List<Categoria> listaCategorias =  new List<Categoria>();
 
-            AccesoADatos conexion = new Datos.AccesoADatos();
+            AccesoADatos conexion = new AccesoADatos();
 
             try
             {
