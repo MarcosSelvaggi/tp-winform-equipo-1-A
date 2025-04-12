@@ -21,13 +21,13 @@ namespace Negocio
             {
                 conexion.setearConsulta("Select Id, Descripcion from Categorias");
                 conexion.ejecturarQuery();
-                Categoria aux = new Categoria(); 
                 while (conexion.Lector.Read())
                 {
+                    Categoria aux = new Categoria(); 
                     aux.Id = (int)conexion.Lector["Id"];
-                    aux.Descripcion = (string)conexion.Lector["Description"];
+                    aux.Descripcion = (string)conexion.Lector["Descripcion"];
+                    listaCategorias.Add(aux);
                 }
-                listaCategorias.Add(aux);
             }
             catch (Exception ex)
             {

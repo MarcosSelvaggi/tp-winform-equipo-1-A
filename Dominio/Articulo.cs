@@ -15,10 +15,19 @@ namespace Dominio
         public string Descripcion { get; set; }
         public decimal Precio { get; set; }
        
+        public Marca Marca { get; set; }
+        public Categoria Categoria { get; set; }
+        /*
         public int IdMarca { get; set; }
+        public string nombreMarca { get; set; }
         public int IdCategoria { get; set; }
-
-        public Articulo() { }  
+        public string nombreCategoria { get; set; }
+        */
+        public Articulo() {
+            Marca = new Marca();
+            Categoria = new Categoria();
+        }  
+        /*
         public Articulo(string codigo, string nombre, string descripcion, decimal precio, int idMarca, int idCategoria)
         {
             Codigo = codigo;
@@ -27,6 +36,6 @@ namespace Dominio
             Precio = precio;
             IdMarca = idMarca;
             IdCategoria = idCategoria;
-        }
+        }*/
     }
 }

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Negocio;
 
 namespace UI
 {
@@ -17,5 +18,12 @@ namespace UI
             InitializeComponent();
         }
 
+        private void frmPrincipal_Load(object sender, EventArgs e)
+        {
+            
+            ArticuloManager articuloManager = new ArticuloManager();
+            dgvArticulos.DataSource = articuloManager.listarArticulos();
+            
+        }
     }
 }

@@ -13,7 +13,7 @@ namespace Negocio
         private List<Categoria> listaCategorias;
         private List<Marca> listaMarcas;
 
-    public void ArticulosManager()
+    public ArticuloManager()
         {
             CategoriaManager categoriaManager = new CategoriaManager();
             MarcaManager marcaManager = new MarcaManager();
@@ -21,6 +21,7 @@ namespace Negocio
             listaCategorias = categoriaManager.listarCategorias();
             listaMarcas = marcaManager.listarMarcas();
         }
+        
         public List<Articulo> listarArticulos()
         {
             List<Articulo> listaArticulos = new List<Articulo>();
@@ -28,20 +29,36 @@ namespace Negocio
 
             try
             {
-                string query = "Select Id, Codigo, Nombre, Descripcion, IdMarca, IdCategoria, ImagenUrl, Precio from Articulos";
+                string query = "Select Id, Codigo, Nombre, Descripcion, IdMarca, IdCategoria, Precio from Articulos";
                 conexion.setearConsulta(query);
                 conexion.ejecturarQuery();
 
-                Articulo aux = new Articulo();
-
                 while (conexion.Lector.Read())
                 {
+                    Articulo aux = new Articulo();
+                    
                     aux.Id = (int)conexion.Lector["Id"];
                     aux.Codigo = (string)conexion.Lector["Codigo"];
                     aux.Nombre = (string)conexion.Lector["Nombre"];
                     aux.Descripcion = (string)conexion.Lector["Descripcion"];
-                    aux.IdCategoria = (int)conexion.Lector["IdCategoria"] - 1;
-                    aux.IdMarca = (int)conexion.Lector["IdMarca"] - 1;
+                    aux.Categoria.Id = (int)conexion.Lector["IdCategoria"] - 1;
+                    if (aux.Categoria.Id < listaCategorias.Count())
+                    {
+                        aux.Categoria.Descripcion = listaCategorias[aux.Categoria.Id].Descripcion;
+                    }
+                    else
+                    {
+                        aux.Categoria.Descripcion = "Error al cargar la categoría";
+                    }
+                    aux.Marca.Id = (int)conexion.Lector["IdMarca"] - 1;
+                    if (aux.Marca.Id < listaCategorias.Count())
+                    {
+                        aux.Marca.Descripcion = listaCategorias[aux.Marca.Id].Descripcion;
+                    }
+                    else
+                    {
+                        aux.Marca.Descripcion = "Error al cargar la Marca";
+                    }
                     aux.Precio = Decimal.Parse(conexion.Lector["Precio"].ToString());
 
                     listaArticulos.Add(aux);
