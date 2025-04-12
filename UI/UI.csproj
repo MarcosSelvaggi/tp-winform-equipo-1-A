@@ -68,6 +68,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="app.manifest" />
     <None Include="Properties\Settings.settings">
@@ -92,6 +93,15 @@
       <Project>{4d565c9c-fe60-4227-be79-4884f2c6d223}</Project>
       <Name>Negocio</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\edit-50.png" />
+    <None Include="Resources\add-60.png" />
+    <None Include="Resources\view-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\delete-60.png" />
+    <Content Include="Resources\logo-negocio.jfif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

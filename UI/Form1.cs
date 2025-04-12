@@ -18,12 +18,10 @@ namespace UI
             InitializeComponent();
         }
 
-        private void frmPrincipal_Load(object sender, EventArgs e)
+        private void btnListaArt_Click(object sender, EventArgs e)
         {
-            
             ArticuloManager articuloManager = new ArticuloManager();
             dgvArticulos.DataSource = articuloManager.listarArticulos();
-            
         }
     }
 }
