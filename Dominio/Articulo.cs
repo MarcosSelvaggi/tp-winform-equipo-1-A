@@ -17,12 +17,6 @@ namespace Dominio
        
         public Marca Marca { get; set; }
         public Categoria Categoria { get; set; }
-        /*
-        public int IdMarca { get; set; }
-        public string nombreMarca { get; set; }
-        public int IdCategoria { get; set; }
-        public string nombreCategoria { get; set; }
-        */
         public Articulo() {
             Marca = new Marca();
             Categoria = new Categoria();

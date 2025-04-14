@@ -23,7 +23,7 @@ namespace Negocio
                 conexion.ejecturarQuery();
                 while (conexion.Lector.Read())
                 {
-                    Categoria aux = new Categoria(); 
+                    Categoria aux = new Categoria();
                     aux.Id = (int)conexion.Lector["Id"];
                     aux.Descripcion = (string)conexion.Lector["Descripcion"];
                     listaCategorias.Add(aux);
@@ -33,7 +33,10 @@ namespace Negocio
             {
                 throw ex;
             }
-
+            finally
+            {
+                conexion.cerrarConexion();
+            }
             return listaCategorias;
         }
 
