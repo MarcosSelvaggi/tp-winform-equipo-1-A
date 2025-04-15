@@ -15,10 +15,36 @@ namespace UI
     public partial class frmAgregar : Form
     {
         public bool SeGuardoElArticulo { get; set; } = false;
-
+        public bool articuloActualizado { get; set;} = false;
+        
         public frmAgregar()
         {
             InitializeComponent();
+        }
+        private Articulo articuloAux;
+        public frmAgregar(Articulo articuloAModificar)
+        {
+            InitializeComponent();
+            btnAgregar.Text = "Modificar";
+
+            btnAgregarCategoria.Visible = false;
+            btnAgregarMarca.Visible = false;
+
+            ImagenManager imagenManager = new ImagenManager();
+            List<Imagen> listaImagenes = imagenManager.listarImagenes();
+            txtCodigo.Text = articuloAModificar.Codigo;
+            txtNombre.Text = articuloAModificar.Nombre;
+            txtDescripcion.Text = articuloAModificar.Descripcion;
+            txtPrecio.Text = articuloAModificar.Precio.ToString();
+            articuloAux = articuloAModificar;
+            foreach (var item in listaImagenes)
+            {
+                if (item.IdArticulo == articuloAModificar.Id)
+                {
+                    lbxImagenes.Items.Add(item);
+                }
+            }
+            
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -56,19 +82,10 @@ namespace UI
 
                 MessageBox.Show("Error " + ex);
             } 
-
-
-              
         }
-
-
-       
 
         private void frmAgregar_Load(object sender, EventArgs e)
         {
-
-            txtNuevaCategoria.Visible = false;
-            txtNuevaMarca.Visible = false;
             MarcaManager managerMarca = new MarcaManager();
             CategoriaManager managerCategoria = new CategoriaManager();
             try
@@ -79,12 +96,22 @@ namespace UI
                 cboCategoria.DataSource = managerCategoria.listar();
                 cboCategoria.ValueMember = "Id";
                 cboCategoria.DisplayMember = "Descripcion";
-                
+
             }
             catch (Exception ex)
             {
 
                 MessageBox.Show(ex.ToString());
+            }
+            seleccionarComboBox();
+        }
+
+        private void seleccionarComboBox()
+        {
+            if (articuloAux != null)
+            {
+                cboCategoria.SelectedIndex = articuloAux.Categoria.Id - 1;
+                cboMarca.SelectedIndex = articuloAux.Marca.Id - 1;
             }
         }
 
@@ -117,6 +144,7 @@ namespace UI
                 }
             }
         }
+
 
         private void btnAgregarMarca_Click(object sender, EventArgs e)
         {
@@ -189,8 +217,6 @@ namespace UI
                 MessageBox.Show("Por favor, ingrese una URL válida de imagen.", "Campo vacío", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-
-            
             if((txtRutaImagen.Text.ToUpper().Contains("HTTP")) || (txtRutaImagen.Text.ToUpper().Contains("HTTPS")))
             {
                 if (!lbxImagenes.Items.Contains(urlImagen))
@@ -206,6 +232,18 @@ namespace UI
             else
             {
                 MessageBox.Show("Por favor, ingrese una URL válida de imagen.", "URL inválida", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnEliminarImagenSeleccionada_Click(object sender, EventArgs e)
+        {
+            if (lbxImagenes.SelectedIndex == -1)
+            {
+                MessageBox.Show("Debe seleccionar una imagen para eliminar", "Selecione una opción", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else
+            {
+                lbxImagenes.Items.RemoveAt(lbxImagenes.SelectedIndex);
             }
         }
     }

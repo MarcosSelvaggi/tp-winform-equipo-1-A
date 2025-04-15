@@ -18,5 +18,10 @@ namespace Dominio
             IdArticulo = idArticulo;
             ImagenUrl = imagenUrl;
         }
+
+        public override string ToString()
+        {
+            return ImagenUrl;
+        }
     }
 }

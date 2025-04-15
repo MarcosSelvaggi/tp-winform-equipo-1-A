@@ -25,6 +25,7 @@ namespace UI
         public frmPrincipal()
         {
             InitializeComponent();
+            actualizarGrillaArticulos();
         }
 
         private void btnListaArt_Click(object sender, EventArgs e)
@@ -157,6 +158,20 @@ namespace UI
             dgvArticulos.DataSource = null;
             dgvArticulos.DataSource = articuloManager.listarArticulos();
             ocultarColumnas();
+        }
+
+        private void btnModificarArt_Click(object sender, EventArgs e)
+        {
+            if(dgvArticulos.CurrentRow.DataBoundItem == null)
+            {
+                MessageBox.Show("Debe seleccionar un producto para modificar", "Seleccione un producto", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            frmAgregar agregar = new frmAgregar((Articulo)dgvArticulos.CurrentRow.DataBoundItem);
+            agregar.ShowDialog();
+            if (agregar.articuloActualizado)
+            {
+                actualizarGrillaArticulos();
+            }
         }
     }
 }
