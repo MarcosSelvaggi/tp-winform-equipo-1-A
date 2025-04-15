@@ -16,7 +16,7 @@ namespace Negocio
             try
             {
                 conexion.setearConsulta("Select Id, IdArticulo, ImagenUrl from IMAGENES");
-                conexion.ejecturarQuery();
+                conexion.ejecutarQuery();
                 while (conexion.Lector.Read())
                 {
                     Imagen aux = new Imagen();

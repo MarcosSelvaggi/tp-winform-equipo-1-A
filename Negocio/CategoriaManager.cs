@@ -8,9 +8,9 @@ using Dominio;
 
 namespace Negocio
 {
-    internal class CategoriaManager
+    public class CategoriaManager
     {
-        public List<Categoria> listarCategorias()
+        public List<Categoria> listar()
         {
 
             List<Categoria> listaCategorias =  new List<Categoria>();
@@ -20,7 +20,7 @@ namespace Negocio
             try
             {
                 conexion.setearConsulta("Select Id, Descripcion from Categorias");
-                conexion.ejecturarQuery();
+                conexion.ejecutarQuery();
                 while (conexion.Lector.Read())
                 {
                     Categoria aux = new Categoria();
@@ -38,6 +38,24 @@ namespace Negocio
                 conexion.cerrarConexion();
             }
             return listaCategorias;
+        }
+
+        public void agregar(string nombreCategoria)
+        {
+                  AccesoADatos conexion = new AccesoADatos();
+
+            try
+            {
+                string query = "Insert Into Categorias (Descripcion) Values (@Descripcion)";
+                conexion.setearConsulta(query);
+                conexion.agregarParametros("@Descripcion", nombreCategoria);
+                conexion.ejecutarNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
     }

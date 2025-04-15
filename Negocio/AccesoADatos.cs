@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
+using System.Data;
 
 namespace Negocio
 {
@@ -27,7 +28,7 @@ namespace Negocio
             comando = new SqlCommand();
         }
 
-        public void ejecturarQuery()
+        public void ejecutarQuery()
         {
             try
             {
@@ -78,6 +79,58 @@ namespace Negocio
                 lector.Close();
             }
             conexion.Close();
+        }
+
+        public int ObtenerUltimoIdInsertado()
+        {
+            
+            try
+            {
+                setearConsulta("Select Scope_Identity()"); 
+
+                object resultado = EjecutarScalar();
+
+                
+                if (resultado == DBNull.Value)
+                {
+                    throw new Exception("No se pudo obtener el ID.");
+                }
+
+                
+                return Convert.ToInt32(resultado);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        
+
+
+        public object EjecutarScalar()
+        {
+            object resultado = null;
+            try
+            {
+                comando.Connection = conexion;
+                conexion.Open();
+                resultado = comando.ExecuteScalar();  
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (conexion.State == ConnectionState.Open)
+                    conexion.Close(); 
+            }
+            return resultado;
+        }
+
+        public void limpiarParametros()
+        {
+            comando.Parameters.Clear(); 
         }
 
     }

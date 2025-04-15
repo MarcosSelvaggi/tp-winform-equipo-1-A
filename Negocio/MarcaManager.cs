@@ -9,14 +9,15 @@ namespace Negocio
 {
     public class MarcaManager
     {
-        public List<Marca> listarMarcas()
+        private AccesoADatos conexion = new AccesoADatos();
+        public List<Marca> listar()
         {
             List<Marca> listaMarcas = new List<Marca>();
-            AccesoADatos conexion = new AccesoADatos();
+            //AccesoADatos conexion = new AccesoADatos();
             try
             {
                 conexion.setearConsulta("Select Id, Descripcion from Marcas");
-                conexion.ejecturarQuery();
+                conexion.ejecutarQuery();
                 while (conexion.Lector.Read())
                 {
                     Marca aux = new Marca();
@@ -36,6 +37,21 @@ namespace Negocio
             }
 
             return listaMarcas;
+        }
+        public void agregar(string nombreMarca)
+        {
+            try
+            {
+                string query = "Insert Into Marcas (Descripcion) Values (@Descripcion)";
+                conexion.setearConsulta(query);
+                conexion.agregarParametros("@Descripcion", nombreMarca);
+                conexion.ejecutarNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
     }
 }

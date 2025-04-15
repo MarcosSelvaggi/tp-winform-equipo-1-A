@@ -19,6 +19,7 @@ namespace UI
         List<Imagen> listaImagenes = new List<Imagen>();
         string urlImagenCargada = "";
         int imagenesPorArticulo = 0;
+        bool seActivoElList = false;
         public frmPrincipal()
         {
             InitializeComponent();
@@ -26,9 +27,8 @@ namespace UI
 
         private void btnListaArt_Click(object sender, EventArgs e)
         {
-            listaImagenes = imagenManager.listarImagenes();
-            dgvArticulos.DataSource = articuloManager.listarArticulos();
-            ocultarColumnas();
+            seActivoElList = true;
+            actualizarGrillaArticulos();
         }
         private void dgvArticulos_SelectionChanged(object sender, EventArgs e)
         {
@@ -149,6 +149,24 @@ namespace UI
         private void cargarImagen(string urlImagen)
         {
 
+        }
+
+        private void btnAgregarArt_Click(object sender, EventArgs e)
+        {
+            frmAgregar agregar = new frmAgregar();
+            agregar.ShowDialog();
+            if (seActivoElList && agregar.SeGuardoElArticulo)
+            {
+                actualizarGrillaArticulos();
+            }
+        }
+
+        private void actualizarGrillaArticulos()
+        {
+            listaImagenes = imagenManager.listarImagenes();
+            dgvArticulos.DataSource = null;
+            dgvArticulos.DataSource = articuloManager.listarArticulos();
+            ocultarColumnas();
         }
     }
 }
