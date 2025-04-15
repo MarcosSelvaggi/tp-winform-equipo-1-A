@@ -21,15 +21,5 @@ namespace Dominio
             Marca = new Marca();
             Categoria = new Categoria();
         }
-        /*
-        public Articulo(string codigo, string nombre, string descripcion, decimal precio, int idMarca, int idCategoria)
-        {
-            Codigo = codigo;
-            Nombre = nombre;
-            Descripcion = descripcion;
-            Precio = precio;
-            IdMarca = idMarca;
-            IdCategoria = idCategoria;
-        }*/
     }
 }

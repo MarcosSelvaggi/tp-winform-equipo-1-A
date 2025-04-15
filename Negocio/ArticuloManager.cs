@@ -126,7 +126,6 @@ namespace Negocio
             AccesoADatos accesoADatos = new AccesoADatos();
             try
             {
-                
                 string query = "Insert Into Articulos (Codigo, Nombre, Descripcion, Precio, IdMarca, IdCategoria) " +
                                "Values (@Codigo, @Nombre, @Descripcion, @Precio, @IdMarca, @IdCategoria); " +
                                "Select Scope_Identity();";
@@ -163,9 +162,5 @@ namespace Negocio
                 accesoADatos.cerrarConexion();  
             }
         }
-
-
-
-
     }
 }

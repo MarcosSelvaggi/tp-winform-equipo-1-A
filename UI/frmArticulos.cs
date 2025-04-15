@@ -16,9 +16,11 @@ namespace UI
     {
         ArticuloManager articuloManager = new ArticuloManager();
         ImagenManager imagenManager = new ImagenManager();
-        List<Imagen> listaImagenes = new List<Imagen>();
-        string urlImagenCargada = "";
-        int imagenesPorArticulo = 0;
+
+        List<Imagen> listaImagenesTotales = new List<Imagen>();
+        List<Imagen> listaImagenesDelArticulo = new List<Imagen>();
+        private int indiceActualDeImagenes = 0;
+
         bool seActivoElList = false;
         public frmPrincipal()
         {
@@ -30,46 +32,16 @@ namespace UI
             seActivoElList = true;
             actualizarGrillaArticulos();
         }
+        private void frmPrincipal_Load(object sender, EventArgs e)
+        {
+            listaImagenesTotales = imagenManager.listarImagenes();
+        }
         private void dgvArticulos_SelectionChanged(object sender, EventArgs e)
         {
             if (dgvArticulos.CurrentRow != null)
             {
                 Articulo seleccion = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
-                try
-                {
-                    foreach (var item in listaImagenes)
-                    {
-                        if (item.IdArticulo == seleccion.Id)
-                        {
-                            imagenesPorArticulo++;
-                        }
-                    }
-                    foreach (var item in listaImagenes)
-                    {
-                        if (item.IdArticulo == seleccion.Id)
-                        {
-                            urlImagenCargada = item.ImagenUrl;
-                            pbxArticulo.Load(urlImagenCargada);
-                            break; //Una vez encontrada la imagen sale del foreach
-                        }
-                        //Esto es por si algún artículo no tiene una imagen cargada, evita que muestre la misma imagen del producto anterior
-                        pbxArticulo.Load("https://ih1.redbubble.net/image.4905811447.8675/flat,750x,075,f-pad,750x1000,f8f8f8.jpg");
-                    }
-                }
-                catch (Exception)
-                {
-                    pbxArticulo.Load("https://ih1.redbubble.net/image.4905811447.8675/flat,750x,075,f-pad,750x1000,f8f8f8.jpg");
-                }
-            }
-            if (imagenesPorArticulo > 1)
-            {
-                btnDerecha.Visible = true;
-                imagenesPorArticulo = 0;
-            }
-            else
-            {
-                btnDerecha.Visible = false;
-                imagenesPorArticulo = 0;
+                cargarImagen(seleccion);
             }
         }
         private void btnDetalles_Click(object sender, EventArgs e)
@@ -95,62 +67,81 @@ namespace UI
 
         private void btnDerecha_Click(object sender, EventArgs e)
         {
-            Articulo seleccion = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
-            try
+            if (indiceActualDeImagenes < listaImagenesDelArticulo.Count - 1)
             {
-                foreach (var item in listaImagenes)
-                {
-                    if (item.ImagenUrl == urlImagenCargada)
-                    {
-                        urlImagenCargada = listaImagenes[listaImagenes.IndexOf(item) + 1].ImagenUrl;
-                        pbxArticulo.Load(urlImagenCargada);
-                        if (listaImagenes.IndexOf(item) + 2 == listaImagenes.Count() || listaImagenes[listaImagenes.IndexOf(item) + 2].IdArticulo != seleccion.Id)
-                        {
-                            btnDerecha.Visible = false;
-                        }
-                        break;
-                    }
-                }
+                indiceActualDeImagenes++;
+                MostrarImagenNueva(listaImagenesDelArticulo[indiceActualDeImagenes].ImagenUrl);
+                ActualizarVisibilidadBotones();
             }
-            catch (Exception)
-            {
-                pbxArticulo.Load("https://ih1.redbubble.net/image.4905811447.8675/flat,750x,075,f-pad,750x1000,f8f8f8.jpg");
-            }
-            btnIzquierda.Visible = true;
         }
-
         private void btnIzquierda_Click(object sender, EventArgs e)
         {
-            Articulo seleccion = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
+            if (indiceActualDeImagenes > 0)
+            {
+                indiceActualDeImagenes--;
+                MostrarImagenNueva(listaImagenesDelArticulo[indiceActualDeImagenes].ImagenUrl);
+                ActualizarVisibilidadBotones();
+            }
+        }
+        private void ActualizarVisibilidadBotones()
+        {
+            if (indiceActualDeImagenes > 0)
+                btnIzquierda.Visible = true;
+            else
+                btnIzquierda.Visible = false;
+
+
+            if (indiceActualDeImagenes < listaImagenesDelArticulo.Count - 1)
+                btnDerecha.Visible = true;
+            else
+                btnDerecha.Visible = false;
+        }
+        private void cargarImagen(Articulo articulo)
+        {
+            listaImagenesDelArticulo = listarImagenesPorId(listaImagenesTotales, articulo);
+            indiceActualDeImagenes = 0;
+
             try
             {
-                foreach (var item in listaImagenes)
+                if (listaImagenesDelArticulo.Count > 0 && !string.IsNullOrWhiteSpace(listaImagenesDelArticulo[0].ImagenUrl))
                 {
-                    if (item.ImagenUrl == urlImagenCargada)
-                    {
-                        if (listaImagenes.IndexOf(item) - 2 < 0 || listaImagenes[listaImagenes.IndexOf(item) - 2].IdArticulo != seleccion.Id)
-                        {
-                            btnIzquierda.Visible = false;
-                        }
-                        urlImagenCargada = listaImagenes[listaImagenes.IndexOf(item) - 1].ImagenUrl;
-                        pbxArticulo.Load(urlImagenCargada);
-                        
-                        break;
-                    }
+                    pbxArticulo.Load(listaImagenesDelArticulo[0].ImagenUrl);
+                }
+                else
+                {
+                    pbxArticulo.Load("https://th.bing.com/th/id/OIP.mSzrXbopNaal5jPsMxNHHwHaHa?rs=1&pid=ImgDetMain");
                 }
             }
-            catch (Exception)
+            catch
             {
-                pbxArticulo.Load("https://ih1.redbubble.net/image.4905811447.8675/flat,750x,075,f-pad,750x1000,f8f8f8.jpg");
+                pbxArticulo.Load("https://th.bing.com/th/id/OIP.mSzrXbopNaal5jPsMxNHHwHaHa?rs=1&pid=ImgDetMain");
             }
-            btnDerecha.Visible = true;
+            ActualizarVisibilidadBotones();
         }
-
-        private void cargarImagen(string urlImagen)
+        private void MostrarImagenNueva(string url)
         {
-
+            try
+            {
+                pbxArticulo.Load(url);
+            }
+            catch
+            {
+                pbxArticulo.Load("https://th.bing.com/th/id/OIP.mSzrXbopNaal5jPsMxNHHwHaHa?rs=1&pid=ImgDetMain");
+            }
         }
+        private List<Imagen> listarImagenesPorId(List<Imagen> listaImagenes, Articulo articulo)
+        {
+            List<Imagen> listaImagenesPorArticulo = new List<Imagen>();
 
+            foreach (Imagen img in listaImagenes)
+            {
+                if (articulo.Id == img.IdArticulo)
+                {
+                    listaImagenesPorArticulo.Add(img);
+                }
+            }
+            return listaImagenesPorArticulo;
+        }
         private void btnAgregarArt_Click(object sender, EventArgs e)
         {
             frmAgregar agregar = new frmAgregar();
@@ -160,10 +151,9 @@ namespace UI
                 actualizarGrillaArticulos();
             }
         }
-
         private void actualizarGrillaArticulos()
         {
-            listaImagenes = imagenManager.listarImagenes();
+            listaImagenesTotales = imagenManager.listarImagenes();
             dgvArticulos.DataSource = null;
             dgvArticulos.DataSource = articuloManager.listarArticulos();
             ocultarColumnas();
