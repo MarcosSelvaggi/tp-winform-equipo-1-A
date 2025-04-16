@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dominio;
+using static System.Net.Mime.MediaTypeNames;
 
 
 namespace Negocio
@@ -150,7 +151,7 @@ namespace Negocio
                     accesoADatos.setearConsulta(query);
                     accesoADatos.agregarParametros("@IdArticulo", articuloId);
                     accesoADatos.agregarParametros("@ImagenUrl", imagenUrl);
-                    accesoADatos.ejecutarNonQuery();  
+                    accesoADatos.ejecutarNonQuery();
                 }
             }
             catch (Exception ex)
@@ -160,6 +161,51 @@ namespace Negocio
             finally
             {
                 accesoADatos.cerrarConexion();  
+            }
+        }
+        public void ModificarArticuloEImagenes(Articulo articulo, List<string> imagenesNuevas) 
+        {
+            AccesoADatos conexion = new AccesoADatos();
+            try
+            {
+                string query = "UPDATE Articulos SET Codigo = @Codigo, Nombre = @Nombre, Descripcion = @Descripcion, " +
+                               "Precio = @Precio, IdMarca = @IdMarca, IdCategoria = @IdCategoria WHERE Id = @Id";
+
+                conexion.setearConsulta(query);
+                conexion.limpiarParametros();
+                conexion.agregarParametros("@Codigo", articulo.Codigo);
+                conexion.agregarParametros("@Nombre", articulo.Nombre);
+                conexion.agregarParametros("@Descripcion", articulo.Descripcion);
+                conexion.agregarParametros("@Precio", articulo.Precio);
+                conexion.agregarParametros("@IdMarca", articulo.Marca.Id);
+                conexion.agregarParametros("@IdCategoria", articulo.Categoria.Id);
+                conexion.agregarParametros("@Id", articulo.Id);
+                conexion.ejecutarNonQuery();
+
+                query = "DELETE FROM Imagenes WHERE IdArticulo = @IdArticulo";
+                conexion.setearConsulta(query);
+                conexion.limpiarParametros();
+                conexion.agregarParametros("@IdArticulo", articulo.Id);
+                conexion.ejecutarNonQuery();
+
+                foreach (string imagen in imagenesNuevas)
+                {
+                    query = "INSERT INTO Imagenes (IdArticulo, ImagenUrl) VALUES (@IdArticulo, @ImagenUrl)";
+                    conexion.setearConsulta(query);
+                    conexion.limpiarParametros();
+                    conexion.agregarParametros("@IdArticulo", articulo.Id);
+                    conexion.agregarParametros("@ImagenUrl", imagen);
+                    conexion.ejecutarNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally 
+            {
+                conexion.cerrarConexion();
             }
         }
     }

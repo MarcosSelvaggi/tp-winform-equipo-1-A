@@ -25,13 +25,12 @@ namespace UI
         public frmPrincipal()
         {
             InitializeComponent();
-            actualizarGrillaArticulos();
         }
 
         private void btnListaArt_Click(object sender, EventArgs e)
         {
             seActivoElList = true;
-            actualizarGrillaArticulos();
+            ActualizarGrillaArticulos();
         }
         private void frmPrincipal_Load(object sender, EventArgs e)
         {
@@ -42,7 +41,7 @@ namespace UI
             if (dgvArticulos.CurrentRow != null)
             {
                 Articulo seleccion = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
-                cargarImagen(seleccion);
+                CargarImagen(seleccion);
             }
         }
         private void btnDetalles_Click(object sender, EventArgs e)
@@ -61,7 +60,7 @@ namespace UI
                 MessageBox.Show("Por favor, seleccione una fila antes de ver los detalles.", "Sin selección", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
-        private void ocultarColumnas()
+        private void OcultarColumnas()
         {
             dgvArticulos.Columns["Id"].Visible = false;
         }
@@ -97,9 +96,9 @@ namespace UI
             else
                 btnDerecha.Visible = false;
         }
-        private void cargarImagen(Articulo articulo)
+        private void CargarImagen(Articulo articulo)
         {
-            listaImagenesDelArticulo = listarImagenesPorId(listaImagenesTotales, articulo);
+            listaImagenesDelArticulo = ListarImagenesPorId(listaImagenesTotales, articulo);
             indiceActualDeImagenes = 0;
 
             try
@@ -130,7 +129,7 @@ namespace UI
                 pbxArticulo.Load("https://th.bing.com/th/id/OIP.mSzrXbopNaal5jPsMxNHHwHaHa?rs=1&pid=ImgDetMain");
             }
         }
-        private List<Imagen> listarImagenesPorId(List<Imagen> listaImagenes, Articulo articulo)
+        private List<Imagen> ListarImagenesPorId(List<Imagen> listaImagenes, Articulo articulo)
         {
             List<Imagen> listaImagenesPorArticulo = new List<Imagen>();
 
@@ -149,28 +148,29 @@ namespace UI
             agregar.ShowDialog();
             if (seActivoElList && agregar.SeGuardoElArticulo)
             {
-                actualizarGrillaArticulos();
+                ActualizarGrillaArticulos();
             }
         }
-        private void actualizarGrillaArticulos()
+        private void ActualizarGrillaArticulos()
         {
             listaImagenesTotales = imagenManager.listarImagenes();
             dgvArticulos.DataSource = null;
             dgvArticulos.DataSource = articuloManager.listarArticulos();
-            ocultarColumnas();
+            OcultarColumnas();
         }
 
         private void btnModificarArt_Click(object sender, EventArgs e)
         {
-            if(dgvArticulos.CurrentRow.DataBoundItem == null)
+            if (dgvArticulos.CurrentRow == null || dgvArticulos.CurrentRow.DataBoundItem == null)
             {
                 MessageBox.Show("Debe seleccionar un producto para modificar", "Seleccione un producto", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
             frmAgregar agregar = new frmAgregar((Articulo)dgvArticulos.CurrentRow.DataBoundItem);
             agregar.ShowDialog();
             if (agregar.articuloActualizado)
             {
-                actualizarGrillaArticulos();
+                ActualizarGrillaArticulos();
             }
         }
     }

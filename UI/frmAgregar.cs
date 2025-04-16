@@ -25,23 +25,27 @@ namespace UI
         public frmAgregar(Articulo articuloAModificar)
         {
             InitializeComponent();
+
+            ImagenManager imagenManager = new ImagenManager();
+            List<Imagen> listaImagenes = imagenManager.listarImagenes();
+
             btnAgregar.Text = "Modificar";
 
             btnAgregarCategoria.Visible = false;
             btnAgregarMarca.Visible = false;
 
-            ImagenManager imagenManager = new ImagenManager();
-            List<Imagen> listaImagenes = imagenManager.listarImagenes();
             txtCodigo.Text = articuloAModificar.Codigo;
             txtNombre.Text = articuloAModificar.Nombre;
             txtDescripcion.Text = articuloAModificar.Descripcion;
             txtPrecio.Text = articuloAModificar.Precio.ToString();
             articuloAux = articuloAModificar;
+
             foreach (var item in listaImagenes)
             {
                 if (item.IdArticulo == articuloAModificar.Id)
                 {
-                    lbxImagenes.Items.Add(item);
+                    lbxImagenes.Items.Add(item.ImagenUrl);
+
                 }
             }
             
@@ -64,7 +68,7 @@ namespace UI
             articulo.Categoria = (Categoria)cboCategoria.SelectedItem;
 
             List<string> imagenesUrls = new List<string>();
-            foreach (string url in lbxImagenes.Items)  
+            foreach (string url in lbxImagenes.Items)
             {
                 imagenesUrls.Add(url);
             }
@@ -72,15 +76,26 @@ namespace UI
             ArticuloManager negocio = new ArticuloManager();
             try
             {
-                negocio.agregarArticuloEImagenes(articulo, imagenesUrls);
-                MessageBox.Show("Artículo agregado exitosamente.");
-                SeGuardoElArticulo = true;
+                if (articuloAux != null) 
+                {
+                    articulo.Id = articuloAux.Id;
+                    negocio.ModificarArticuloEImagenes(articulo, imagenesUrls);
+                    MessageBox.Show("Artículo modificado.");
+                    articuloActualizado = true;
+                }
+                else
+                {
+                    negocio.agregarArticuloEImagenes(articulo, imagenesUrls);
+                    MessageBox.Show("Artículo agregado exitosamente.");
+                    SeGuardoElArticulo = true;
+                }
+
                 Close();
             }
             catch (Exception ex)
             {
 
-                MessageBox.Show("Error " + ex);
+                MessageBox.Show("Error tipo: " + ex);
             } 
         }
 
@@ -103,15 +118,18 @@ namespace UI
 
                 MessageBox.Show(ex.ToString());
             }
-            seleccionarComboBox();
+            SeleccionarComboBox();
         }
 
-        private void seleccionarComboBox()
+        private void SeleccionarComboBox()
         {
             if (articuloAux != null)
             {
-                cboCategoria.SelectedIndex = articuloAux.Categoria.Id - 1;
-                cboMarca.SelectedIndex = articuloAux.Marca.Id - 1;
+                if (cboCategoria.DataSource != null)
+                    cboCategoria.SelectedValue = articuloAux.Categoria.Id;
+
+                if (cboMarca.DataSource != null)
+                    cboMarca.SelectedValue = articuloAux.Marca.Id;
             }
         }
 
@@ -185,17 +203,17 @@ namespace UI
             if (lbxImagenes.SelectedItem != null)
             {
                 string urlImagenSeleccionada = lbxImagenes.SelectedItem.ToString();
-                cargarImagen(urlImagenSeleccionada);
+                CargarImagen(urlImagenSeleccionada);
             }
         }
 
         private void txtRutaImagen_Leave(object sender, EventArgs e)
         {
-            cargarImagen(txtRutaImagen.Text);
+            CargarImagen(txtRutaImagen.Text);
         }
 
         
-        private void cargarImagen(string urlImagenSeleccionada)
+        private void CargarImagen(string urlImagenSeleccionada)
         {
             try
             {
@@ -217,11 +235,13 @@ namespace UI
                 MessageBox.Show("Por favor, ingrese una URL válida de imagen.", "Campo vacío", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+
             if((txtRutaImagen.Text.ToUpper().Contains("HTTP")) || (txtRutaImagen.Text.ToUpper().Contains("HTTPS")))
             {
                 if (!lbxImagenes.Items.Contains(urlImagen))
                 {
                     lbxImagenes.Items.Add(urlImagen);
+
                     txtRutaImagen.Clear();  
                 }
                 else
