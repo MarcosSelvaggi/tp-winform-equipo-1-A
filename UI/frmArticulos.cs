@@ -157,6 +157,7 @@ namespace UI
             dgvArticulos.DataSource = null;
             dgvArticulos.DataSource = articuloManager.listarArticulos();
             OcultarColumnas();
+            dgvArticulos.CurrentCell = dgvArticulos.Rows[0].Cells[1];
         }
 
         private void btnModificarArt_Click(object sender, EventArgs e)
@@ -172,6 +173,22 @@ namespace UI
             {
                 ActualizarGrillaArticulos();
             }
+        }
+
+        private void btnEliminarArt_Click(object sender, EventArgs e)
+        {
+            if (dgvArticulos.CurrentRow == null || dgvArticulos.CurrentRow.DataBoundItem == null)
+            {
+                MessageBox.Show("Debe seleccionar un producto para eliminar", "Seleccione un producto", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            frmEliminar eliminar = new frmEliminar((Articulo)dgvArticulos.CurrentRow.DataBoundItem, listaImagenesTotales);
+            eliminar.ShowDialog();
+            if (eliminar.articuloEliminado)
+            {
+                ActualizarGrillaArticulos();
+            }
+
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -207,6 +208,39 @@ namespace Negocio
             {
                 conexion.cerrarConexion();
             }
+        }
+
+        public int eliminarArticulo(Articulo articuloEliminado, List<Imagen> imagenesDelArticulo)
+        {
+            AccesoADatos conexion = new AccesoADatos();
+            int resultado = 0;
+            try
+            {
+                string query;
+                foreach (var item in imagenesDelArticulo)
+                {
+                    query = "Delete from Imagenes where IdArticulo = @IdArticulo";
+                    conexion.setearConsulta(query);
+                    conexion.limpiarParametros(); 
+                    conexion.agregarParametros("@IdArticulo", articuloEliminado.Id);
+                    conexion.ejecutarNonQuery();
+                }
+
+                query = "Delete from Articulos where Id = @Id";
+                conexion.setearConsulta(query);
+                conexion.limpiarParametros();
+                conexion.agregarParametros("@Id", articuloEliminado.Id);
+                resultado = conexion.ejecutarNonQuery(); 
+            }
+            catch(Exception ex) 
+            { 
+                throw ex; 
+            }
+            finally
+            {
+                conexion.cerrarConexion();
+            }
+            return resultado; 
         }
     }
 }
