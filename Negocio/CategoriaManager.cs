@@ -42,8 +42,7 @@ namespace Negocio
 
         public void agregar(string nombreCategoria)
         {
-                  AccesoADatos conexion = new AccesoADatos();
-
+            AccesoADatos conexion = new AccesoADatos();
             try
             {
                 string query = "Insert Into Categorias (Descripcion) Values (@Descripcion)";
@@ -55,7 +54,68 @@ namespace Negocio
             {
                 throw ex;
             }
+            finally
+            {
+                conexion.cerrarConexion();
+            }
 
+        }
+
+        public void modificar(Categoria categoriaModificada)
+        {
+            AccesoADatos conexion = new AccesoADatos();
+            try
+            {
+                string query = "Update Categorias Set Descripcion = @Descripcion where Id = @Id";
+                conexion.setearConsulta(query);
+                conexion.agregarParametros("@Id", categoriaModificada.Id);
+                conexion.agregarParametros("@Descripcion", categoriaModificada.Descripcion);
+                conexion.ejecutarNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                conexion.cerrarConexion();
+            }
+        }
+
+        public void eliminar(int IdCategoria)
+        {
+            AccesoADatos conexion = new AccesoADatos();
+            try
+            {
+                string query = "Update Articulos set IdCategoria = -1 where IdCategoria = @IdCategoria";
+                conexion.setearConsulta(query);
+                conexion.agregarParametros("@IdCategoria", IdCategoria);
+                conexion.ejecutarNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                conexion.cerrarConexion();
+            }
+
+            try
+            {
+                string query = "Delete from Categorias where Id = @Id";
+                conexion.setearConsulta(query);
+                conexion.agregarParametros("@Id", IdCategoria);
+                conexion.ejecutarNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                conexion.cerrarConexion();
+            }
         }
 
     }

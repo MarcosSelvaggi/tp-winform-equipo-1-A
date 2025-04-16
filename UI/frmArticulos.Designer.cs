@@ -41,20 +41,22 @@
             this.btnModificarArt = new System.Windows.Forms.Button();
             this.btnEliminarArt = new System.Windows.Forms.Button();
             this.pnlBotones = new System.Windows.Forms.Panel();
-            this.pbxArticulo = new System.Windows.Forms.PictureBox();
             this.pbxEliminarArt = new System.Windows.Forms.PictureBox();
             this.pbxModificarArt = new System.Windows.Forms.PictureBox();
             this.pbxAgregarArt = new System.Windows.Forms.PictureBox();
             this.pbxListaArt = new System.Windows.Forms.PictureBox();
             this.pbxLogo = new System.Windows.Forms.PictureBox();
+            this.pbxArticulo = new System.Windows.Forms.PictureBox();
+            this.btnModificarCategorias = new System.Windows.Forms.Button();
+            this.btnModificarMarcas = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvArticulos)).BeginInit();
             this.pnlBotones.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbxArticulo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbxEliminarArt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbxModificarArt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbxAgregarArt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbxListaArt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbxLogo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbxArticulo)).BeginInit();
             this.SuspendLayout();
             // 
             // lblBusquedaR
@@ -252,18 +254,6 @@
             this.pnlBotones.Size = new System.Drawing.Size(215, 352);
             this.pnlBotones.TabIndex = 4;
             // 
-            // pbxArticulo
-            // 
-            this.pbxArticulo.BackColor = System.Drawing.Color.MintCream;
-            this.pbxArticulo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pbxArticulo.Location = new System.Drawing.Point(835, 0);
-            this.pbxArticulo.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
-            this.pbxArticulo.Name = "pbxArticulo";
-            this.pbxArticulo.Size = new System.Drawing.Size(234, 228);
-            this.pbxArticulo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pbxArticulo.TabIndex = 3;
-            this.pbxArticulo.TabStop = false;
-            // 
             // pbxEliminarArt
             // 
             this.pbxEliminarArt.BackColor = System.Drawing.Color.LightSteelBlue;
@@ -276,6 +266,7 @@
             this.pbxEliminarArt.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pbxEliminarArt.TabIndex = 12;
             this.pbxEliminarArt.TabStop = false;
+            this.pbxEliminarArt.Click += new System.EventHandler(this.btnEliminarArt_Click);
             // 
             // pbxModificarArt
             // 
@@ -289,6 +280,7 @@
             this.pbxModificarArt.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbxModificarArt.TabIndex = 10;
             this.pbxModificarArt.TabStop = false;
+            this.pbxModificarArt.Click += new System.EventHandler(this.btnModificarArt_Click);
             // 
             // pbxAgregarArt
             // 
@@ -302,6 +294,7 @@
             this.pbxAgregarArt.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbxAgregarArt.TabIndex = 8;
             this.pbxAgregarArt.TabStop = false;
+            this.pbxAgregarArt.Click += new System.EventHandler(this.btnAgregarArt_Click);
             // 
             // pbxListaArt
             // 
@@ -315,6 +308,7 @@
             this.pbxListaArt.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbxListaArt.TabIndex = 6;
             this.pbxListaArt.TabStop = false;
+            this.pbxListaArt.Click += new System.EventHandler(this.btnListaArt_Click);
             // 
             // pbxLogo
             // 
@@ -328,12 +322,59 @@
             this.pbxLogo.TabIndex = 2;
             this.pbxLogo.TabStop = false;
             // 
+            // pbxArticulo
+            // 
+            this.pbxArticulo.BackColor = System.Drawing.Color.MintCream;
+            this.pbxArticulo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pbxArticulo.Location = new System.Drawing.Point(835, 0);
+            this.pbxArticulo.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
+            this.pbxArticulo.Name = "pbxArticulo";
+            this.pbxArticulo.Size = new System.Drawing.Size(234, 228);
+            this.pbxArticulo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbxArticulo.TabIndex = 3;
+            this.pbxArticulo.TabStop = false;
+            // 
+            // btnModificarCategorias
+            // 
+            this.btnModificarCategorias.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.btnModificarCategorias.FlatAppearance.BorderSize = 0;
+            this.btnModificarCategorias.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnModificarCategorias.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnModificarCategorias.ForeColor = System.Drawing.Color.Black;
+            this.btnModificarCategorias.Location = new System.Drawing.Point(888, 264);
+            this.btnModificarCategorias.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
+            this.btnModificarCategorias.Name = "btnModificarCategorias";
+            this.btnModificarCategorias.Size = new System.Drawing.Size(174, 40);
+            this.btnModificarCategorias.TabIndex = 10;
+            this.btnModificarCategorias.Text = "Modificar categorias";
+            this.btnModificarCategorias.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnModificarCategorias.UseVisualStyleBackColor = false;
+            this.btnModificarCategorias.Click += new System.EventHandler(this.btnModificarCategorias_Click);
+            // 
+            // btnModificarMarcas
+            // 
+            this.btnModificarMarcas.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.btnModificarMarcas.FlatAppearance.BorderSize = 0;
+            this.btnModificarMarcas.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnModificarMarcas.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnModificarMarcas.ForeColor = System.Drawing.Color.Black;
+            this.btnModificarMarcas.Location = new System.Drawing.Point(888, 310);
+            this.btnModificarMarcas.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
+            this.btnModificarMarcas.Name = "btnModificarMarcas";
+            this.btnModificarMarcas.Size = new System.Drawing.Size(174, 40);
+            this.btnModificarMarcas.TabIndex = 11;
+            this.btnModificarMarcas.Text = "Modificar marcas";
+            this.btnModificarMarcas.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnModificarMarcas.UseVisualStyleBackColor = false;
+            // 
             // frmPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Lavender;
             this.ClientSize = new System.Drawing.Size(1073, 352);
+            this.Controls.Add(this.btnModificarMarcas);
+            this.Controls.Add(this.btnModificarCategorias);
             this.Controls.Add(this.btnBusquedaAv);
             this.Controls.Add(this.btnDetalles);
             this.Controls.Add(this.btnDerecha);
@@ -351,12 +392,12 @@
             this.Load += new System.EventHandler(this.frmPrincipal_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvArticulos)).EndInit();
             this.pnlBotones.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pbxArticulo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbxEliminarArt)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbxModificarArt)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbxAgregarArt)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbxListaArt)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbxLogo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbxArticulo)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -381,6 +422,8 @@
         private System.Windows.Forms.Button btnEliminarArt;
         private System.Windows.Forms.PictureBox pbxEliminarArt;
         private System.Windows.Forms.Panel pnlBotones;
+        private System.Windows.Forms.Button btnModificarCategorias;
+        private System.Windows.Forms.Button btnModificarMarcas;
     }
 }
 

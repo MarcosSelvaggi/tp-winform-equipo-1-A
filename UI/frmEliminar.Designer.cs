@@ -73,7 +73,7 @@
             this.Controls.Add(this.btnAceptar);
             this.Controls.Add(this.lblNombreArticulo);
             this.Name = "frmEliminar";
-            this.Text = "Form1";
+            this.Text = "Eliminar artículo";
             this.ResumeLayout(false);
 
         }

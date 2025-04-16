@@ -190,5 +190,12 @@ namespace UI
             }
 
         }
+
+        private void btnModificarCategorias_Click(object sender, EventArgs e)
+        {
+            frmCategorias categoria = new frmCategorias(); 
+            categoria.ShowDialog();
+            ActualizarGrillaArticulos();
+        }
     }
 }
