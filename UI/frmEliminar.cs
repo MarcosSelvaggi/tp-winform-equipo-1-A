@@ -42,7 +42,8 @@ namespace UI
             try
             {
                 ArticuloManager articuloManager = new ArticuloManager();
-                MessageBox.Show("Se ha eliminado " + articuloManager.eliminarArticulo(articuloAux, imagenesDelProducto ) + " artículo"); 
+                MessageBox.Show("Se ha eliminado " + articuloManager.eliminarArticulo(articuloAux, imagenesDelProducto ) + " artículo");
+                articuloEliminado = true;
             }
             catch (Exception)
             {

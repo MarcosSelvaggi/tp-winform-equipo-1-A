@@ -87,6 +87,7 @@ namespace UI
                 managerCategoria.agregar(txtAgregarCategoria.Text);
                 MessageBox.Show("Categoría agregada correctamente.");
                 txtAgregarCategoria.Clear();
+                cargarCategorias();
             }
             else
             {
@@ -116,6 +117,7 @@ namespace UI
             CategoriaManager managerCategoria = new CategoriaManager();
             managerCategoria.eliminar(Int32.Parse(cboCategorias.SelectedValue.ToString()));
             MessageBox.Show("Se ha eliminado la categoria");
+            cargarCategorias();
         }
     }
 }

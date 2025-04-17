@@ -17,6 +17,7 @@ namespace UI
         ArticuloManager articuloManager = new ArticuloManager();
         ImagenManager imagenManager = new ImagenManager();
 
+        List<Articulo> listaArticulosTotales = new List<Articulo>();
         List<Imagen> listaImagenesTotales = new List<Imagen>();
         List<Imagen> listaImagenesDelArticulo = new List<Imagen>();
         private int indiceActualDeImagenes = 0;
@@ -57,7 +58,7 @@ namespace UI
             }
             else
             {
-                MessageBox.Show("Por favor, seleccione una fila antes de ver los detalles.", "Sin selección", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Por favor, seleccione una fila antes de ver los detalles.", "Sin selección.", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
         private void OcultarColumnas()
@@ -153,9 +154,11 @@ namespace UI
         }
         private void ActualizarGrillaArticulos()
         {
+            listaArticulosTotales = articuloManager.listarArticulos();
             listaImagenesTotales = imagenManager.listarImagenes();
             dgvArticulos.DataSource = null;
             dgvArticulos.DataSource = articuloManager.listarArticulos();
+            dgvArticulos.Columns["Precio"].DefaultCellStyle.Format = "F2";
             OcultarColumnas();
             dgvArticulos.CurrentCell = dgvArticulos.Rows[0].Cells[1];
         }
@@ -164,7 +167,7 @@ namespace UI
         {
             if (dgvArticulos.CurrentRow == null || dgvArticulos.CurrentRow.DataBoundItem == null)
             {
-                MessageBox.Show("Debe seleccionar un producto para modificar", "Seleccione un producto", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Debe seleccionar un producto para modificar.", "Seleccione un producto.", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             frmAgregar agregar = new frmAgregar((Articulo)dgvArticulos.CurrentRow.DataBoundItem);
@@ -179,7 +182,7 @@ namespace UI
         {
             if (dgvArticulos.CurrentRow == null || dgvArticulos.CurrentRow.DataBoundItem == null)
             {
-                MessageBox.Show("Debe seleccionar un producto para eliminar", "Seleccione un producto", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Debe seleccionar un producto para eliminar.", "Seleccione un producto.", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             frmEliminar eliminar = new frmEliminar((Articulo)dgvArticulos.CurrentRow.DataBoundItem, listaImagenesTotales);
@@ -197,5 +200,44 @@ namespace UI
             categoria.ShowDialog();
             ActualizarGrillaArticulos();
         }
+
+        
+
+        private void txtBusquedaR_TextChanged(object sender, EventArgs e)
+        {
+            if (!seActivoElList)
+                return;
+            string texto = txtBusquedaR.Text.Trim().ToLower();
+
+            if (texto.Length >= 3)
+            {
+                List<Articulo> listaFiltrada = new List<Articulo>();
+
+                foreach (Articulo art in listaArticulosTotales)
+                {
+                    string nombre = art.Nombre.ToLower();
+                    string marca = art.Marca.Descripcion.ToLower();
+                    string categoria = art.Categoria.Descripcion.ToLower();
+                    string descripcion = art.Categoria.Descripcion.ToLower();
+
+                    if (nombre.Contains(texto) || marca.Contains(texto) || categoria.Contains(texto) || descripcion.Contains(texto))
+                    {
+                        listaFiltrada.Add(art);
+                    }
+                }
+
+                dgvArticulos.DataSource = null;
+                dgvArticulos.DataSource = listaFiltrada;
+            }
+            else if (texto.Length == 0)
+            {
+                dgvArticulos.DataSource = null;
+                dgvArticulos.DataSource = listaArticulosTotales;
+            }
+
+            OcultarColumnas();
+
+        }
+
     }
 }

@@ -36,18 +36,20 @@
             // lblNombreArticulo
             // 
             this.lblNombreArticulo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNombreArticulo.Location = new System.Drawing.Point(45, 34);
+            this.lblNombreArticulo.Location = new System.Drawing.Point(60, 42);
+            this.lblNombreArticulo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblNombreArticulo.Name = "lblNombreArticulo";
-            this.lblNombreArticulo.Size = new System.Drawing.Size(284, 43);
+            this.lblNombreArticulo.Size = new System.Drawing.Size(379, 53);
             this.lblNombreArticulo.TabIndex = 0;
             this.lblNombreArticulo.Text = "SI USTED ESTÁ VIENDO ESTO, ALGO SALIÓ MAL";
             this.lblNombreArticulo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // btnAceptar
             // 
-            this.btnAceptar.Location = new System.Drawing.Point(48, 80);
+            this.btnAceptar.Location = new System.Drawing.Point(64, 98);
+            this.btnAceptar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnAceptar.Name = "btnAceptar";
-            this.btnAceptar.Size = new System.Drawing.Size(133, 45);
+            this.btnAceptar.Size = new System.Drawing.Size(177, 55);
             this.btnAceptar.TabIndex = 1;
             this.btnAceptar.Text = "ACEPTAR";
             this.btnAceptar.UseVisualStyleBackColor = true;
@@ -55,10 +57,11 @@
             // 
             // btnCancelar
             // 
-            this.btnCancelar.Location = new System.Drawing.Point(196, 80);
+            this.btnCancelar.Location = new System.Drawing.Point(261, 98);
+            this.btnCancelar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.btnCancelar.Size = new System.Drawing.Size(133, 45);
+            this.btnCancelar.Size = new System.Drawing.Size(177, 55);
             this.btnCancelar.TabIndex = 2;
             this.btnCancelar.Text = "CANCELAR";
             this.btnCancelar.UseVisualStyleBackColor = true;
@@ -66,13 +69,15 @@
             // 
             // frmEliminar
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(354, 168);
+            this.ClientSize = new System.Drawing.Size(472, 207);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnAceptar);
             this.Controls.Add(this.lblNombreArticulo);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "frmEliminar";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Eliminar artículo";
             this.ResumeLayout(false);
 

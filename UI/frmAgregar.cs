@@ -8,12 +8,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Dominio;
+using Helper;
 using Negocio;
 
 namespace UI
 {
     public partial class frmAgregar : Form
     {
+        ErrorProvider errorP = new ErrorProvider();
         public bool SeGuardoElArticulo { get; set; } = false;
         public bool articuloActualizado { get; set;} = false;
         
@@ -37,7 +39,7 @@ namespace UI
             txtCodigo.Text = articuloAModificar.Codigo;
             txtNombre.Text = articuloAModificar.Nombre;
             txtDescripcion.Text = articuloAModificar.Descripcion;
-            txtPrecio.Text = articuloAModificar.Precio.ToString();
+            txtPrecio.Text = articuloAModificar.Precio.ToString("F2");
             articuloAux = articuloAModificar;
 
             foreach (var item in listaImagenes)
@@ -58,6 +60,11 @@ namespace UI
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
+            if (!validarFormulario())
+            {
+                MessageBox.Show("Por favor, complete todos los campos obligatorios correctamente.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             Articulo articulo = new Articulo();
 
             articulo.Codigo = txtCodigo.Text;
@@ -266,5 +273,80 @@ namespace UI
                 lbxImagenes.Items.RemoveAt(lbxImagenes.SelectedIndex);
             }
         }
+
+        private void txtPrecio_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            bool validar = Validadores.txtSoloNumeros(txtPrecio,e);
+            if (!validar)
+                errorP.SetError(txtPrecio, "Solo números positivos.");
+            else
+                errorP.Clear();
+            
+        }
+
+        private void txtCodigo_Leave(object sender, EventArgs e)
+        {
+            if (Validadores.txtVacio(txtCodigo))
+                errorP.SetError(txtCodigo, "No puede quedar vacío.");
+            else
+                errorP.Clear();
+        }
+
+        private void txtNombre_Leave(object sender, EventArgs e)
+        {
+            if (Validadores.txtVacio(txtNombre))
+                errorP.SetError(txtNombre, "No puede quedar vacío.");
+            else
+                errorP.Clear();
+        }
+
+        private void txtPrecio_Leave(object sender, EventArgs e)
+        {
+            if (Validadores.txtVacio(txtPrecio))
+                errorP.SetError(txtPrecio, "No puede quedar vacío");
+            else
+                errorP.Clear();
+        }
+
+        private void txtDescripcion_Leave(object sender, EventArgs e)
+        {
+            if (Validadores.txtVacio(txtDescripcion))
+                errorP.SetError(txtDescripcion, "No puede quedar vacío");
+            else
+                errorP.Clear();
+        }
+
+        private bool validarFormulario()
+        {
+            bool camposValidos = true;
+            errorP.Clear();
+
+            if (Validadores.txtVacio(txtCodigo))
+            {
+                errorP.SetError(txtCodigo, "No puede quedar vacío.");
+                camposValidos = false;
+            }
+
+            if (Validadores.txtVacio(txtNombre))
+            {
+                errorP.SetError(txtNombre, "No puede quedar vacío.");
+                camposValidos = false;
+            }
+
+            if (Validadores.txtVacio(txtDescripcion))
+            {
+                errorP.SetError(txtDescripcion, "No puede quedar vacío.");
+                camposValidos = false;
+            }
+
+            if (Validadores.txtVacio(txtPrecio))
+            {
+                errorP.SetError(txtPrecio, "No puede quedar vacío.");
+                camposValidos = false;
+            }
+
+            return camposValidos;
+        }
+
     }
 }
