@@ -156,9 +156,12 @@ namespace UI
         {
             listaArticulosTotales = articuloManager.listarArticulos();
             listaImagenesTotales = imagenManager.listarImagenes();
+
             dgvArticulos.DataSource = null;
             dgvArticulos.DataSource = articuloManager.listarArticulos();
+
             dgvArticulos.Columns["Precio"].DefaultCellStyle.Format = "F2";
+
             OcultarColumnas();
             dgvArticulos.CurrentCell = dgvArticulos.Rows[0].Cells[1];
         }
@@ -200,8 +203,13 @@ namespace UI
             categoria.ShowDialog();
             ActualizarGrillaArticulos();
         }
+        private void btnModificarMarcas_Click(object sender, EventArgs e)
+        {
+            frmCategorias categoria = new frmCategorias();
+            categoria.ShowDialog();
+            ActualizarGrillaArticulos();
+        }
 
-        
 
         private void txtBusquedaR_TextChanged(object sender, EventArgs e)
         {
@@ -239,5 +247,80 @@ namespace UI
 
         }
 
+        private void btnBusquedaAv_Click(object sender, EventArgs e)
+        {
+            frmBusquedaAv busquedaAv = new frmBusquedaAv();
+            ActualizarGrillaArticulos();
+            busquedaAv.ShowDialog();
+
+            if (busquedaAv.BusquedaRealizada)
+            {
+                Buscar(busquedaAv.CampoSeleccionado, busquedaAv.CriterioSeleccionado, busquedaAv.ValorBusqueda);
+            }
+        }
+        private void Buscar(string campo, string criterio, string valor)
+        {
+            List<Articulo> listaFiltrada = new List<Articulo>();
+            valor = valor.Trim().ToLower();
+
+            foreach (Articulo art in listaArticulosTotales)
+            {
+                switch (campo)
+                {
+                    case "Codigo":
+                        if (CriterioTxt(art.Codigo, criterio, valor))
+                            listaFiltrada.Add(art);
+                        break;
+
+                    case "Nombre":
+                        if (CriterioTxt(art.Nombre, criterio, valor))
+                            listaFiltrada.Add(art);
+                        break;
+
+                    case "Descripcion":
+                        if (CriterioTxt(art.Descripcion, criterio, valor))
+                            listaFiltrada.Add(art);
+                        break;
+
+                    case "Marca":
+                        if (CriterioTxt(art.Marca.Descripcion, criterio, valor))
+                            listaFiltrada.Add(art);
+                        break;
+
+                    case "Categoria":
+                        if (CriterioTxt(art.Categoria.Descripcion, criterio, valor))
+                            listaFiltrada.Add(art);
+                        break;
+
+                    case "Precio":
+                        if (decimal.TryParse(valor, out decimal precio))
+                        {
+                            if (criterio == "Mayor a" && art.Precio > precio)
+                                listaFiltrada.Add(art);
+                            else if (criterio == "Menor a" && art.Precio < precio)
+                                listaFiltrada.Add(art);
+                            else if (criterio == "Igual a" && art.Precio == precio)
+                                listaFiltrada.Add(art);
+                        }
+                        break;
+                }
+            }
+            dgvArticulos.DataSource = null;
+            dgvArticulos.DataSource = listaFiltrada;
+        }
+        private bool CriterioTxt(string campo, string criterio, string valor)
+        {
+            if (string.IsNullOrEmpty(campo) || string.IsNullOrEmpty(valor))
+                return false;
+
+            campo = campo.ToLower();
+            valor = valor.ToLower();
+
+            bool cumple = (criterio == "Comienza con" && campo.StartsWith(valor)) ||
+                          (criterio == "Termina con" && campo.EndsWith(valor)) ||
+                          (criterio == "Contiene" && campo.Contains(valor));
+
+            return cumple;
+        }
     }
 }
