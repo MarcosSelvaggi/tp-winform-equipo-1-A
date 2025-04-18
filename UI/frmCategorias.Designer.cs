@@ -41,10 +41,9 @@
             // 
             // txtModificarCategoria
             // 
-            this.txtModificarCategoria.Location = new System.Drawing.Point(238, 149);
-            this.txtModificarCategoria.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtModificarCategoria.Location = new System.Drawing.Point(159, 97);
             this.txtModificarCategoria.Name = "txtModificarCategoria";
-            this.txtModificarCategoria.Size = new System.Drawing.Size(254, 26);
+            this.txtModificarCategoria.Size = new System.Drawing.Size(171, 20);
             this.txtModificarCategoria.TabIndex = 0;
             this.txtModificarCategoria.Visible = false;
             // 
@@ -52,10 +51,9 @@
             // 
             this.cboCategorias.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboCategorias.FormattingEnabled = true;
-            this.cboCategorias.Location = new System.Drawing.Point(238, 103);
-            this.cboCategorias.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cboCategorias.Location = new System.Drawing.Point(159, 67);
             this.cboCategorias.Name = "cboCategorias";
-            this.cboCategorias.Size = new System.Drawing.Size(254, 28);
+            this.cboCategorias.Size = new System.Drawing.Size(171, 21);
             this.cboCategorias.TabIndex = 2;
             this.cboCategorias.Visible = false;
             // 
@@ -63,10 +61,10 @@
             // 
             this.btnAgregarCategoria.BackColor = System.Drawing.Color.LightSteelBlue;
             this.btnAgregarCategoria.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAgregarCategoria.Location = new System.Drawing.Point(240, 58);
-            this.btnAgregarCategoria.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.btnAgregarCategoria.Location = new System.Drawing.Point(160, 38);
+            this.btnAgregarCategoria.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btnAgregarCategoria.Name = "btnAgregarCategoria";
-            this.btnAgregarCategoria.Size = new System.Drawing.Size(255, 35);
+            this.btnAgregarCategoria.Size = new System.Drawing.Size(170, 23);
             this.btnAgregarCategoria.TabIndex = 37;
             this.btnAgregarCategoria.Text = "Agregar Nueva Categoria";
             this.btnAgregarCategoria.UseVisualStyleBackColor = false;
@@ -75,10 +73,10 @@
             // 
             // txtAgregarCategoria
             // 
-            this.txtAgregarCategoria.Location = new System.Drawing.Point(240, 18);
-            this.txtAgregarCategoria.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.txtAgregarCategoria.Location = new System.Drawing.Point(160, 12);
+            this.txtAgregarCategoria.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.txtAgregarCategoria.Name = "txtAgregarCategoria";
-            this.txtAgregarCategoria.Size = new System.Drawing.Size(254, 26);
+            this.txtAgregarCategoria.Size = new System.Drawing.Size(171, 20);
             this.txtAgregarCategoria.TabIndex = 38;
             this.txtAgregarCategoria.Visible = false;
             // 
@@ -86,10 +84,10 @@
             // 
             this.btnModificarCategoria.BackColor = System.Drawing.Color.LightSteelBlue;
             this.btnModificarCategoria.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnModificarCategoria.Location = new System.Drawing.Point(240, 189);
-            this.btnModificarCategoria.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.btnModificarCategoria.Location = new System.Drawing.Point(160, 123);
+            this.btnModificarCategoria.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btnModificarCategoria.Name = "btnModificarCategoria";
-            this.btnModificarCategoria.Size = new System.Drawing.Size(255, 35);
+            this.btnModificarCategoria.Size = new System.Drawing.Size(170, 23);
             this.btnModificarCategoria.TabIndex = 42;
             this.btnModificarCategoria.Text = "Modificar Categoría";
             this.btnModificarCategoria.UseVisualStyleBackColor = false;
@@ -100,10 +98,10 @@
             // 
             this.btnEliminarCategoría.BackColor = System.Drawing.Color.LightSteelBlue;
             this.btnEliminarCategoría.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnEliminarCategoría.Location = new System.Drawing.Point(242, 234);
-            this.btnEliminarCategoría.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.btnEliminarCategoría.Location = new System.Drawing.Point(161, 152);
+            this.btnEliminarCategoría.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btnEliminarCategoría.Name = "btnEliminarCategoría";
-            this.btnEliminarCategoría.Size = new System.Drawing.Size(255, 35);
+            this.btnEliminarCategoría.Size = new System.Drawing.Size(170, 23);
             this.btnEliminarCategoría.TabIndex = 44;
             this.btnEliminarCategoría.Text = "Eliminar Categoría";
             this.btnEliminarCategoría.UseVisualStyleBackColor = false;
@@ -113,10 +111,9 @@
             // rbtnAgregarCategoria
             // 
             this.rbtnAgregarCategoria.AutoSize = true;
-            this.rbtnAgregarCategoria.Location = new System.Drawing.Point(33, 23);
-            this.rbtnAgregarCategoria.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.rbtnAgregarCategoria.Location = new System.Drawing.Point(22, 15);
             this.rbtnAgregarCategoria.Name = "rbtnAgregarCategoria";
-            this.rbtnAgregarCategoria.Size = new System.Drawing.Size(164, 24);
+            this.rbtnAgregarCategoria.Size = new System.Drawing.Size(112, 17);
             this.rbtnAgregarCategoria.TabIndex = 45;
             this.rbtnAgregarCategoria.Text = "Agregar Categoría";
             this.rbtnAgregarCategoria.UseVisualStyleBackColor = true;
@@ -125,10 +122,9 @@
             // rbtnModificarCategoria
             // 
             this.rbtnModificarCategoria.AutoSize = true;
-            this.rbtnModificarCategoria.Location = new System.Drawing.Point(33, 60);
-            this.rbtnModificarCategoria.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.rbtnModificarCategoria.Location = new System.Drawing.Point(22, 39);
             this.rbtnModificarCategoria.Name = "rbtnModificarCategoria";
-            this.rbtnModificarCategoria.Size = new System.Drawing.Size(171, 24);
+            this.rbtnModificarCategoria.Size = new System.Drawing.Size(118, 17);
             this.rbtnModificarCategoria.TabIndex = 46;
             this.rbtnModificarCategoria.TabStop = true;
             this.rbtnModificarCategoria.Text = "Modificar Categoría";
@@ -138,10 +134,9 @@
             // rbtnEliminarCategoria
             // 
             this.rbtnEliminarCategoria.AutoSize = true;
-            this.rbtnEliminarCategoria.Location = new System.Drawing.Point(33, 95);
-            this.rbtnEliminarCategoria.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.rbtnEliminarCategoria.Location = new System.Drawing.Point(22, 62);
             this.rbtnEliminarCategoria.Name = "rbtnEliminarCategoria";
-            this.rbtnEliminarCategoria.Size = new System.Drawing.Size(163, 24);
+            this.rbtnEliminarCategoria.Size = new System.Drawing.Size(111, 17);
             this.rbtnEliminarCategoria.TabIndex = 47;
             this.rbtnEliminarCategoria.TabStop = true;
             this.rbtnEliminarCategoria.Text = "Eliminar Categoría";
@@ -150,9 +145,9 @@
             // 
             // frmCategorias
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(505, 277);
+            this.ClientSize = new System.Drawing.Size(341, 186);
             this.Controls.Add(this.rbtnEliminarCategoria);
             this.Controls.Add(this.rbtnModificarCategoria);
             this.Controls.Add(this.rbtnAgregarCategoria);
@@ -162,9 +157,7 @@
             this.Controls.Add(this.txtAgregarCategoria);
             this.Controls.Add(this.cboCategorias);
             this.Controls.Add(this.txtModificarCategoria);
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.MaximumSize = new System.Drawing.Size(527, 333);
-            this.MinimumSize = new System.Drawing.Size(527, 333);
+            this.MaximumSize = new System.Drawing.Size(357, 230);
             this.Name = "frmCategorias";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Categorias";

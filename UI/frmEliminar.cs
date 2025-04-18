@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -41,6 +42,18 @@ namespace UI
         {
             try
             {
+                List<Imagen> listaImagenes = new List<Imagen>();
+                ImagenManager imagenManager = new ImagenManager();
+                listaImagenes = imagenManager.listarImagenes(); 
+
+                foreach(var item in listaImagenes)
+                {
+                    if(item.ImagenUrl.Contains(@"\Imagenes\Articulo"))
+                    {
+                        File.Delete(item.ImagenUrl);
+                    }
+                }
+
                 ArticuloManager articuloManager = new ArticuloManager();
                 MessageBox.Show("Se ha eliminado " + articuloManager.eliminarArticulo(articuloAux, imagenesDelProducto ) + " artículo");
                 articuloEliminado = true;

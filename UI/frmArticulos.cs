@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -130,6 +132,7 @@ namespace UI
                 pbxArticulo.Load("https://th.bing.com/th/id/OIP.mSzrXbopNaal5jPsMxNHHwHaHa?rs=1&pid=ImgDetMain");
             }
         }
+
         private List<Imagen> ListarImagenesPorId(List<Imagen> listaImagenes, Articulo articulo)
         {
             List<Imagen> listaImagenesPorArticulo = new List<Imagen>();
@@ -173,12 +176,15 @@ namespace UI
                 MessageBox.Show("Debe seleccionar un producto para modificar.", "Seleccione un producto.", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            MostrarImagenNueva("");
             frmAgregar agregar = new frmAgregar((Articulo)dgvArticulos.CurrentRow.DataBoundItem);
             agregar.ShowDialog();
             if (agregar.articuloActualizado)
             {
                 ActualizarGrillaArticulos();
             }
+            pbxArticulo.Refresh();
+            CargarImagen((Articulo)dgvArticulos.CurrentRow.DataBoundItem);
         }
 
         private void btnEliminarArt_Click(object sender, EventArgs e)
@@ -188,18 +194,18 @@ namespace UI
                 MessageBox.Show("Debe seleccionar un producto para eliminar.", "Seleccione un producto.", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            MostrarImagenNueva("");
             frmEliminar eliminar = new frmEliminar((Articulo)dgvArticulos.CurrentRow.DataBoundItem, listaImagenesTotales);
             eliminar.ShowDialog();
             if (eliminar.articuloEliminado)
             {
                 ActualizarGrillaArticulos();
             }
-
         }
 
         private void btnModificarCategorias_Click(object sender, EventArgs e)
         {
-            frmCategorias categoria = new frmCategorias(); 
+            frmCategorias categoria = new frmCategorias();
             categoria.ShowDialog();
             ActualizarGrillaArticulos();
         }
@@ -209,7 +215,6 @@ namespace UI
             categoria.ShowDialog();
             ActualizarGrillaArticulos();
         }
-
 
         private void txtBusquedaR_TextChanged(object sender, EventArgs e)
         {
@@ -242,9 +247,7 @@ namespace UI
                 dgvArticulos.DataSource = null;
                 dgvArticulos.DataSource = listaArticulosTotales;
             }
-
             OcultarColumnas();
-
         }
 
         private void btnBusquedaAv_Click(object sender, EventArgs e)

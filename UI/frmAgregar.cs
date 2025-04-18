@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -17,8 +19,13 @@ namespace UI
     {
         ErrorProvider errorP = new ErrorProvider();
         public bool SeGuardoElArticulo { get; set; } = false;
-        public bool articuloActualizado { get; set;} = false;
-        
+        public bool articuloActualizado { get; set; } = false;
+        private bool seCargoImagenLocal { get; set; } = false;
+
+        private string ubicacionDeImagenes = @"..\..\..\Imagenes\Articulos";
+
+        List<string> listaArchivosEliminados = new List<string> { };
+
         public frmAgregar()
         {
             InitializeComponent();
@@ -32,9 +39,6 @@ namespace UI
             List<Imagen> listaImagenes = imagenManager.listarImagenes();
 
             btnAgregar.Text = "Modificar";
-
-            btnAgregarCategoria.Visible = false;
-            btnAgregarMarca.Visible = false;
 
             txtCodigo.Text = articuloAModificar.Codigo;
             txtNombre.Text = articuloAModificar.Nombre;
@@ -50,7 +54,11 @@ namespace UI
 
                 }
             }
-            
+            if (lbxImagenes.Items.Count > 0)
+            {
+                lbxImagenes.SelectedIndex = 0;
+                CargarImagen(lbxImagenes.SelectedItem.ToString());
+            }
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -65,6 +73,20 @@ namespace UI
                 MessageBox.Show("Por favor, complete todos los campos obligatorios correctamente.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+            if (articuloAux == null)
+            {
+                ArticuloManager articuloManager = new ArticuloManager();
+                List<Articulo> listaArticulos = new List<Articulo>();
+                listaArticulos = articuloManager.listarArticulos();
+                foreach (var item in listaArticulos)
+                {
+                    if (txtCodigo.Text == item.Codigo && txtNombre.Text == item.Nombre)
+                    {
+                        MessageBox.Show("Ya hay un artículo con ese nombre y código");
+                        return;
+                    }
+                }
+            }
             Articulo articulo = new Articulo();
 
             articulo.Codigo = txtCodigo.Text;
@@ -72,18 +94,57 @@ namespace UI
             articulo.Descripcion = txtDescripcion.Text;
             articulo.Precio = decimal.Parse(txtPrecio.Text);
             articulo.Marca = (Marca)cboMarca.SelectedItem;
-            articulo.Categoria = (Categoria)cboCategoria.SelectedItem;
+
+            pbxImagen.Image = null;
+            pbxImagen.Dispose();
+
+            //foreach que se encarga de eliminar las imagenes que fueron borradas del list box 
+            foreach (var archivoEliminado in listaArchivosEliminados)
+            {
+                File.Delete(archivoEliminado);
+            }
 
             List<string> imagenesUrls = new List<string>();
+            int indexDeImagenes = 0; //Variable auxiliar para darle unicidad a cada imágen
+
             foreach (string url in lbxImagenes.Items)
             {
-                imagenesUrls.Add(url);
+                if (!url.Contains("www."))
+                {
+                    //liberarImagen();
+                    if (!Directory.Exists(ubicacionDeImagenes))
+                    {
+                        DirectoryInfo directorio = new DirectoryInfo(ubicacionDeImagenes);
+                        directorio.Create();
+                    }
+                    string nuevaUbicacion = ubicacionDeImagenes + @"\Articulo_" + txtCodigo.Text + "_" + txtNombre.Text + "_" + indexDeImagenes;
+
+                    imagenesUrls.Add(nuevaUbicacion);
+
+                    if (File.Exists(nuevaUbicacion))
+                    {
+                        File.Delete(nuevaUbicacion);
+                    }
+                    try
+                    {
+                        File.Copy(url, nuevaUbicacion, true);
+                    }
+                    catch (Exception)
+                    {
+                        File.Create(nuevaUbicacion);
+                    }
+                }
+                else
+                {
+                    imagenesUrls.Add(url);
+                }
+                indexDeImagenes++;
             }
 
             ArticuloManager negocio = new ArticuloManager();
             try
             {
-                if (articuloAux != null) 
+                if (articuloAux != null)
                 {
                     articulo.Id = articuloAux.Id;
                     negocio.ModificarArticuloEImagenes(articulo, imagenesUrls);
@@ -103,7 +164,7 @@ namespace UI
             {
 
                 MessageBox.Show("Error tipo: " + ex);
-            } 
+            }
         }
 
         private void frmAgregar_Load(object sender, EventArgs e)
@@ -140,70 +201,6 @@ namespace UI
             }
         }
 
-        private void btnAgregarCategoria_Click(object sender, EventArgs e)
-        {
-            if(txtNuevaCategoria.Visible == false)
-            {
-                txtNuevaCategoria.Visible = true;
-            }
-            else
-            {
-                string nuevaCategoria = txtNuevaCategoria.Text;
-                if (!string.IsNullOrEmpty(nuevaCategoria))
-                {
-                    CategoriaManager managerCategoria = new CategoriaManager();
-                    managerCategoria.agregar(nuevaCategoria);
-
-                    cboCategoria.DataSource = managerCategoria.listar();
-                    cboCategoria.ValueMember = "Id";
-                    cboCategoria.DisplayMember = "Descripcion";
-
-                    txtNuevaCategoria.Visible = false;
-                    txtNuevaCategoria.Clear();
-
-                    MessageBox.Show("Categoría agregada correctamente.");
-                }
-                else
-                {
-                    MessageBox.Show("Por favor ingrese un nombre para la categoría.");
-                }
-            }
-        }
-
-
-        private void btnAgregarMarca_Click(object sender, EventArgs e)
-        {
-            
-            if (txtNuevaMarca.Visible == false)
-            {
-                txtNuevaMarca.Visible = true;
-            }
-            else
-            {
-                string nuevaMarca = txtNuevaMarca.Text;
-                if (!string.IsNullOrEmpty(nuevaMarca))
-                {
-                    
-                    MarcaManager managerMarca = new MarcaManager();
-                    managerMarca.agregar(nuevaMarca);
-
-                    
-                    cboMarca.DataSource = managerMarca.listar();
-                    cboMarca.ValueMember = "Id";
-                    cboMarca.DisplayMember = "Descripcion";
-
-                    
-                    txtNuevaMarca.Visible = false;
-                    txtNuevaMarca.Clear();
-
-                    MessageBox.Show("Marca agregada correctamente.");
-                }
-                else
-                {
-                    MessageBox.Show("Por favor ingrese un nombre para la marca.");
-                }
-            }
-        }
 
         private void lbxImagenes_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -219,16 +216,16 @@ namespace UI
             CargarImagen(txtRutaImagen.Text);
         }
 
-        
+
         private void CargarImagen(string urlImagenSeleccionada)
         {
             try
             {
                 pbxImagen.Load(urlImagenSeleccionada);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                MessageBox.Show("No se pudo cargar la imagen: " + ex.Message);
+                //MessageBox.Show("No se pudo cargar la imagen: " + ex.Message);
                 pbxImagen.Load("https://ih1.redbubble.net/image.4905811447.8675/flat,750x,075,f-pad,750x1000,f8f8f8.jpg");
             }
         }
@@ -243,22 +240,16 @@ namespace UI
                 return;
             }
 
-            if((txtRutaImagen.Text.ToUpper().Contains("HTTP")) || (txtRutaImagen.Text.ToUpper().Contains("HTTPS")))
-            {
-                if (!lbxImagenes.Items.Contains(urlImagen))
-                {
-                    lbxImagenes.Items.Add(urlImagen);
 
-                    txtRutaImagen.Clear();  
-                }
-                else
-                {
-                    MessageBox.Show("La imagen ya está en la lista.", "URL duplicada", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
+            if (!lbxImagenes.Items.Contains(urlImagen))
+            {
+                lbxImagenes.Items.Add(urlImagen);
+
+                txtRutaImagen.Clear();
             }
             else
             {
-                MessageBox.Show("Por favor, ingrese una URL válida de imagen.", "URL inválida", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("La imagen ya está en la lista.", "URL duplicada", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -270,26 +261,41 @@ namespace UI
             }
             else
             {
+                if (lbxImagenes.SelectedItem.ToString().Contains(@"\Imagenes\Articulos\"))
+                {
+                    listaArchivosEliminados.Add(lbxImagenes.SelectedItem.ToString());
+                }
+
                 lbxImagenes.Items.RemoveAt(lbxImagenes.SelectedIndex);
+                if (lbxImagenes.Items.Count > 0)
+                {
+                    lbxImagenes.SelectedIndex = 0;
+                    CargarImagen(lbxImagenes.SelectedItem.ToString());
+                }
+                else
+                {
+                    CargarImagen("");
+                }
             }
         }
 
         private void txtPrecio_KeyPress(object sender, KeyPressEventArgs e)
         {
-            bool validar = Validadores.txtSoloNumeros(txtPrecio,e);
+            bool validar = Validadores.txtSoloNumeros(txtPrecio, e);
             if (!validar)
                 errorP.SetError(txtPrecio, "Solo números positivos.");
             else
                 errorP.Clear();
-            
         }
 
         private void txtCodigo_Leave(object sender, EventArgs e)
         {
+
             if (Validadores.txtVacio(txtCodigo))
                 errorP.SetError(txtCodigo, "No puede quedar vacío.");
             else
                 errorP.Clear();
+
         }
 
         private void txtNombre_Leave(object sender, EventArgs e)
@@ -344,9 +350,21 @@ namespace UI
                 errorP.SetError(txtPrecio, "No puede quedar vacío.");
                 camposValidos = false;
             }
-
             return camposValidos;
         }
 
+        private void btnImagenLocal_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog imagenLocal = new OpenFileDialog();
+            imagenLocal.Filter = "Imágenes(*.jpg, *.png, *.gif) | *.jpg; *.png; *.gif";
+            {
+                if (imagenLocal.ShowDialog() == DialogResult.OK)
+                {
+                    txtRutaImagen.Text = imagenLocal.FileName;
+                    CargarImagen(txtRutaImagen.Text);
+                    seCargoImagenLocal = true;
+                }
+            }
+        }
     }
 }
