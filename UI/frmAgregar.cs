@@ -116,7 +116,7 @@ namespace UI
             }
 
             List<string> imagenesUrls = new List<string>();
-            int indexDeImagenes = 0; //Variable auxiliar para darle unicidad a cada imágen
+            //int indexDeImagenes = 0; //Variable auxiliar para darle unicidad a cada imágen
 
             foreach (string url in lbxImagenes.Items)
             {
@@ -142,13 +142,15 @@ namespace UI
                     }*/
 
 
-                    string nuevaUbicacion = ubicacionDeImagenes + @"\Articulo_" + txtCodigo.Text + "_" + txtNombre.Text + "_" + indexDeImagenes;
+                    //string nuevaUbicacion = ubicacionDeImagenes + @"\Articulo_" + txtCodigo.Text + "_" + txtNombre.Text + "_" + indexDeImagenes;
+                    string nombreArchivo = $"Articulo_{txtCodigo.Text}_{txtNombre.Text}_{Guid.NewGuid()}{Path.GetExtension(url)}";
+                    string nuevaUbicacion = Path.Combine(ubicacionDeImagenes, nombreArchivo);
                     try
                     {
                         if (!File.Exists(url))
                         {
                             MessageBox.Show("La imagen local no existe.");
-                            continue;
+                            return;
                         }
 
                         if (!Directory.Exists(ubicacionDeImagenes))
@@ -157,10 +159,10 @@ namespace UI
                             directorio.Create();
                         }
 
-                        if (File.Exists(nuevaUbicacion))
+                        /*if (File.Exists(nuevaUbicacion))
                         {
                             File.Delete(nuevaUbicacion);
-                        }
+                        }*/
 
                         File.Copy(url, nuevaUbicacion, true);
 
@@ -173,7 +175,7 @@ namespace UI
                         MessageBox.Show("Error al copiar la imagen local: " + ex.Message);
                     }
                 }
-                indexDeImagenes++;
+                //indexDeImagenes++;
             }
 
             ArticuloManager negocio = new ArticuloManager();
@@ -268,14 +270,26 @@ namespace UI
         private void btnAgregarImagen_Click(object sender, EventArgs e)
         {
             string urlImagen = txtRutaImagen.Text.Trim();
-
+            string[] extensionesValidas = { ".jpg", ".png", ".gif" };
             if (string.IsNullOrEmpty(urlImagen))
             {
                 MessageBox.Show("Por favor, ingrese una URL válida de imagen.", "Campo vacío", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
+            string ruta = urlImagen.ToUpper();
+            if (!(ruta.Contains("HTTP") || ruta.Contains("HTTPS") || ruta.Contains("WWW.") || ruta[1] == ':' && ruta[2] == '\\'))
+            {
+                MessageBox.Show("La ruta ingresada no es válida o no corresponde a una imagen.", "Ruta inválida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
+            string extension = Path.GetExtension(urlImagen).ToLower();
+            if (!extensionesValidas.Contains(extension))
+            {
+                MessageBox.Show("La URL debe ser una imagen válida con una extensión como .jpg, .png o .gif", "Extensión inválida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             if (!lbxImagenes.Items.Contains(urlImagen))
             {
                 lbxImagenes.Items.Add(urlImagen);
