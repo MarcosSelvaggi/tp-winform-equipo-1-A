@@ -168,7 +168,7 @@ namespace Negocio
         {
             AccesoADatos conexion = new AccesoADatos();
             try
-            {
+            { 
                 string query = "UPDATE Articulos SET Codigo = @Codigo, Nombre = @Nombre, Descripcion = @Descripcion, " +
                                "Precio = @Precio, IdMarca = @IdMarca, IdCategoria = @IdCategoria WHERE Id = @Id";
 

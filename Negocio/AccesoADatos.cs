@@ -130,7 +130,10 @@ namespace Negocio
 
         public void limpiarParametros()
         {
-            comando.Parameters.Clear(); 
+            if (comando.Parameters != null)
+            {
+                comando.Parameters.Clear();
+            }
         }
 
     }

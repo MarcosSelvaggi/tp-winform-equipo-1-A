@@ -27,6 +27,7 @@ namespace UI
 
         private void cargarMarcas()
         {
+            listaMarcas = managerMarca.listar();
             cboMarcas.DataSource = null;
             cboMarcas.DataSource = managerMarca.listar();
             cboMarcas.ValueMember = "Id";
@@ -80,8 +81,26 @@ namespace UI
         {
             if (!string.IsNullOrEmpty(txtAgregarMarca.Text))
             {
-                MarcaManager managerMarca = new MarcaManager();
-                managerMarca.agregar(txtAgregarMarca.Text);
+                //MarcaManager managerMarca = new MarcaManager();
+                string nuevaMarca = txtAgregarMarca.Text;
+                bool yaExiste = false;
+
+                foreach (Marca marca in listaMarcas)
+                {
+                    if (marca.Descripcion != null && marca.Descripcion.ToLower() == nuevaMarca.ToLower())
+                    {
+                        yaExiste = true;
+                        break;
+                    }
+                }
+
+                if (yaExiste)
+                {
+                    MessageBox.Show("Esa marca ya existe.");
+                    return;
+                }
+
+                managerMarca.agregar(nuevaMarca);
                 MessageBox.Show("Marca agregada correctamente.");
                 txtAgregarMarca.Clear();
                 cargarMarcas();
@@ -96,7 +115,7 @@ namespace UI
         {
             if (!string.IsNullOrEmpty(txtModificarMarca.Text))
             {
-                MarcaManager managerMarca = new MarcaManager();
+                //MarcaManager managerMarca = new MarcaManager();
                 listaMarcas[cboMarcas.SelectedIndex].Descripcion = txtModificarMarca.Text;
                 managerMarca.modificar(listaMarcas[cboMarcas.SelectedIndex]);
                 MessageBox.Show("Marca modificada correctamente.");
@@ -111,7 +130,7 @@ namespace UI
 
         private void btnEliminarMarca_Click(object sender, EventArgs e)
         {
-            MarcaManager managerMarca = new MarcaManager();
+            //MarcaManager managerMarca = new MarcaManager();
             managerMarca.eliminar(Int32.Parse(cboMarcas.SelectedValue.ToString()));
             MessageBox.Show("Se ha eliminado la marca");
             cargarMarcas();

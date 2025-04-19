@@ -47,6 +47,7 @@ namespace Negocio
             {
                 string query = "Insert Into Categorias (Descripcion) Values (@Descripcion)";
                 conexion.setearConsulta(query);
+                conexion.limpiarParametros();
                 conexion.agregarParametros("@Descripcion", nombreCategoria);
                 conexion.ejecutarNonQuery();
             }

@@ -44,6 +44,7 @@ namespace Negocio
             {
                 string query = "Insert Into Marcas (Descripcion) Values (@Descripcion)";
                 conexion.setearConsulta(query);
+                conexion.limpiarParametros();
                 conexion.agregarParametros("@Descripcion", nombreMarca);
                 conexion.ejecutarNonQuery();
             }

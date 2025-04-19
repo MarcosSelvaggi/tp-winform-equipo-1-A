@@ -27,6 +27,7 @@ namespace UI
 
         private void cargarCategorias()
         {
+            listaCategorias = managerCategoria.listar();
             cboCategorias.DataSource = null;
             cboCategorias.DataSource = managerCategoria.listar();
             cboCategorias.ValueMember = "Id";
@@ -83,8 +84,27 @@ namespace UI
         {
             if (!string.IsNullOrEmpty(txtAgregarCategoria.Text))
             {
-                CategoriaManager managerCategoria = new CategoriaManager();
-                managerCategoria.agregar(txtAgregarCategoria.Text);
+                //CategoriaManager managerCategoria = new CategoriaManager();
+
+                string nuevaCategoria = txtAgregarCategoria.Text;
+                bool yaExiste = false;
+
+                foreach (Categoria categoria in listaCategorias)
+                {
+                    if (categoria.Descripcion != null && categoria.Descripcion.ToLower() == nuevaCategoria.ToLower())
+                    {
+                        yaExiste = true;
+                        break;
+                    }
+                }
+
+                if (yaExiste)
+                {
+                    MessageBox.Show("Esa categoría ya existe.");
+                    return;
+                }
+
+                managerCategoria.agregar(nuevaCategoria);
                 MessageBox.Show("Categoría agregada correctamente.");
                 txtAgregarCategoria.Clear();
                 cargarCategorias();
@@ -99,7 +119,7 @@ namespace UI
         {
             if (!string.IsNullOrEmpty(txtModificarCategoria.Text))
             {
-                CategoriaManager managerCategoria = new CategoriaManager();
+                //CategoriaManager managerCategoria = new CategoriaManager();
                 listaCategorias[cboCategorias.SelectedIndex].Descripcion = txtModificarCategoria.Text;
                 managerCategoria.modificar(listaCategorias[cboCategorias.SelectedIndex]);
                 MessageBox.Show("Categoría modificada correctamente.");
@@ -114,7 +134,7 @@ namespace UI
 
         private void btnEliminarCategoría_Click(object sender, EventArgs e)
         {
-            CategoriaManager managerCategoria = new CategoriaManager();
+            //CategoriaManager managerCategoria = new CategoriaManager();
             managerCategoria.eliminar(Int32.Parse(cboCategorias.SelectedValue.ToString()));
             MessageBox.Show("Se ha eliminado la categoria");
             cargarCategorias();

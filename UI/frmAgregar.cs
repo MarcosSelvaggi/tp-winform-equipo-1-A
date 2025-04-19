@@ -80,9 +80,9 @@ namespace UI
                 listaArticulos = articuloManager.listarArticulos();
                 foreach (var item in listaArticulos)
                 {
-                    if (txtCodigo.Text == item.Codigo && txtNombre.Text == item.Nombre)
+                    if (txtCodigo.Text.ToLower() == item.Codigo.ToLower() && txtNombre.Text.ToLower() == item.Nombre.ToLower())
                     {
-                        MessageBox.Show("Ya hay un artículo con ese nombre y código");
+                        MessageBox.Show("Ya hay un artículo con ese nombre y código.");
                         return;
                     }
                 }
@@ -95,14 +95,24 @@ namespace UI
             articulo.Precio = decimal.Parse(txtPrecio.Text);
             articulo.Categoria = (Categoria)cboCategoria.SelectedItem;
             articulo.Marca = (Marca)cboMarca.SelectedItem;
-
+            if (articulo.Categoria == null || articulo.Categoria.Id <= 0)
+            {
+                MessageBox.Show("Debe seleccionar una Categoría válida.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            if (articulo.Marca == null || articulo.Marca.Id <= 0)
+            {
+                MessageBox.Show("Debe seleccionar una Marca válida.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             pbxImagen.Image = null;
             pbxImagen.Dispose();
 
             //foreach que se encarga de eliminar las imagenes que fueron borradas del list box 
             foreach (var archivoEliminado in listaArchivosEliminados)
             {
-                File.Delete(archivoEliminado);
+                if (File.Exists(archivoEliminado))
+                    File.Delete(archivoEliminado);
             }
 
             List<string> imagenesUrls = new List<string>();
@@ -110,34 +120,62 @@ namespace UI
 
             foreach (string url in lbxImagenes.Items)
             {
-                if (!url.Contains("www."))
+                //if (!url.Contains("www."))
+                if ((url.ToUpper().Contains("HTTP://")) || (url.ToUpper().Contains("HTTPS://")) || (url.ToUpper().Contains("WWW.")))
                 {
-                    //liberarImagen();
-                    if (!Directory.Exists(ubicacionDeImagenes))
-                    {
-                        DirectoryInfo directorio = new DirectoryInfo(ubicacionDeImagenes);
-                        directorio.Create();
-                    }
-                    string nuevaUbicacion = ubicacionDeImagenes + @"\Articulo_" + txtCodigo.Text + "_" + txtNombre.Text + "_" + indexDeImagenes;
-
-                    imagenesUrls.Add(nuevaUbicacion);
-
-                    if (File.Exists(nuevaUbicacion))
-                    {
-                        File.Delete(nuevaUbicacion);
-                    }
-                    try
-                    {
-                        File.Copy(url, nuevaUbicacion, true);
-                    }
-                    catch (Exception)
-                    {
-                        File.Create(nuevaUbicacion);
-                    }
+                    imagenesUrls.Add(url);
+                }
+                else if (url.Contains(ubicacionDeImagenes))
+                {
+                    imagenesUrls.Add(url);
                 }
                 else
                 {
-                    imagenesUrls.Add(url);
+                    //liberarImagen();
+                    /*if (!Directory.Exists(ubicacionDeImagenes))
+                    {
+                        DirectoryInfo directorio = new DirectoryInfo(ubicacionDeImagenes);
+                        directorio.Create();
+                    }/*
+
+                    //imagenesUrls.Add(nuevaUbicacion);
+
+                    /*if (File.Exists(nuevaUbicacion))
+                    {
+                        File.Delete(nuevaUbicacion);
+                    }*/
+
+
+                    string nuevaUbicacion = ubicacionDeImagenes + @"\Articulo_" + txtCodigo.Text + "_" + txtNombre.Text + "_" + indexDeImagenes;
+                    try
+                    {
+                        if (!File.Exists(url))
+                        {
+                            MessageBox.Show("La imagen local no existe.");
+                            continue;
+                        }
+
+                        if (!Directory.Exists(ubicacionDeImagenes))
+                        {
+                            DirectoryInfo directorio = new DirectoryInfo(ubicacionDeImagenes);
+                            directorio.Create();
+                        }
+
+                        if (File.Exists(nuevaUbicacion))
+                        {
+                            File.Delete(nuevaUbicacion);
+                        }
+
+                        File.Copy(url, nuevaUbicacion, true);
+
+                        imagenesUrls.Add(nuevaUbicacion);
+
+                    }
+                    catch (Exception ex)
+                    {
+                        //File.Create(nuevaUbicacion);
+                        MessageBox.Show("Error al copiar la imagen local: " + ex.Message);
+                    }
                 }
                 indexDeImagenes++;
             }
@@ -367,5 +405,6 @@ namespace UI
                 }
             }
         }
+
     }
 }

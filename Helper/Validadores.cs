@@ -34,7 +34,7 @@ namespace Helper
         {
             if (txt.Text == string.Empty)
             {
-                txt.Focus();
+                //txt.Focus();
                 return true;
             }
             else

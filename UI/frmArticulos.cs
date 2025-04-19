@@ -218,8 +218,8 @@ namespace UI
 
         private void txtBusquedaR_TextChanged(object sender, EventArgs e)
         {
-            if (!seActivoElList)
-                return;
+            seActivoElList = true;
+            ActualizarGrillaArticulos();
             string texto = txtBusquedaR.Text.Trim().ToLower();
 
             if (texto.Length >= 3)
