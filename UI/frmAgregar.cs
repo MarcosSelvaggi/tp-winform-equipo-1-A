@@ -121,11 +121,7 @@ namespace UI
             foreach (string url in lbxImagenes.Items)
             {
                 //if (!url.Contains("www."))
-                if ((url.ToUpper().Contains("HTTP://")) || (url.ToUpper().Contains("HTTPS://")) || (url.ToUpper().Contains("WWW.")))
-                {
-                    imagenesUrls.Add(url);
-                }
-                else if (url.Contains(ubicacionDeImagenes))
+                if ((url.ToUpper().Contains("HTTP://")) || (url.ToUpper().Contains("HTTPS://")) || (url.ToUpper().Contains("WWW.")) || url.Contains(ubicacionDeImagenes))
                 {
                     imagenesUrls.Add(url);
                 }
