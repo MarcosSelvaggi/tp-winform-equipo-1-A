@@ -166,6 +166,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.Lavender;
             this.ClientSize = new System.Drawing.Size(604, 279);
             this.Controls.Add(this.lblCategoria);
@@ -180,6 +181,7 @@
             this.Controls.Add(this.lblDescripcionH);
             this.Controls.Add(this.lblNombreH);
             this.Controls.Add(this.lblCodigoH);
+            this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(626, 335);
             this.MinimumSize = new System.Drawing.Size(626, 335);
             this.Name = "frmDetalle";

@@ -211,8 +211,8 @@ namespace UI
         }
         private void btnModificarMarcas_Click(object sender, EventArgs e)
         {
-            frmCategorias categoria = new frmCategorias();
-            categoria.ShowDialog();
+            frmMarcas marca = new frmMarcas();
+            marca.ShowDialog();
             ActualizarGrillaArticulos();
         }
 

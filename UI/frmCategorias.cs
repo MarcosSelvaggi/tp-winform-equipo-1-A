@@ -36,11 +36,11 @@ namespace UI
         //Cambiar el formato de la ventana apenas carga, y de paso pone todos los botones superpuestos
         private void ajustarTamanios()
         {
-            Size = new Size(370, 130);
-            cboCategorias.Location = new Point(160, 12);
-            txtModificarCategoria.Location = new Point(160, 38);
-            btnModificarCategoria.Location = new Point(160, 67);
-            btnEliminarCategoría.Location = new Point(160, 38);
+            Size = new Size(520, 180);
+            cboCategorias.Location = new Point(220, 12);
+            txtModificarCategoria.Location = new Point(220, 38);
+            btnModificarCategoria.Location = new Point(220, 67);
+            btnEliminarCategoría.Location = new Point(220, 38);
         }
 
         private void rbtnAgregarCategoria_Click(object sender, EventArgs e)

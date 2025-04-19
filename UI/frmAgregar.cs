@@ -93,6 +93,7 @@ namespace UI
             articulo.Nombre = txtNombre.Text;
             articulo.Descripcion = txtDescripcion.Text;
             articulo.Precio = decimal.Parse(txtPrecio.Text);
+            articulo.Categoria = (Categoria)cboCategoria.SelectedItem;
             articulo.Marca = (Marca)cboMarca.SelectedItem;
 
             pbxImagen.Image = null;

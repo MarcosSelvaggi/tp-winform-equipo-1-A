@@ -53,5 +53,61 @@ namespace Negocio
             }
 
         }
+        public void modificar(Marca marcaModificada)
+        {
+            AccesoADatos conexion = new AccesoADatos();
+            try
+            {
+                string query = "Update Marcas Set Descripcion = @Descripcion where Id = @Id";
+                conexion.setearConsulta(query);
+                conexion.agregarParametros("@Id", marcaModificada.Id);
+                conexion.agregarParametros("@Descripcion", marcaModificada.Descripcion);
+                conexion.ejecutarNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                conexion.cerrarConexion();
+            }
+        }
+
+        public void eliminar(int IdMarca)
+        {
+            AccesoADatos conexion = new AccesoADatos();
+            try
+            {
+                string query = "Update Articulos set IdMarca = -1 where IdMarca = @IdMarca";
+                conexion.setearConsulta(query);
+                conexion.agregarParametros("@IdMarca", IdMarca);
+                conexion.ejecutarNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                conexion.cerrarConexion();
+            }
+
+            try
+            {
+                string query = "Delete from Marcas where Id = @Id";
+                conexion.setearConsulta(query);
+                conexion.agregarParametros("@Id", IdMarca);
+                conexion.ejecutarNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                conexion.cerrarConexion();
+            }
+        }
     }
 }
