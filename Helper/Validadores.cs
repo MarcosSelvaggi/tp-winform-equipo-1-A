@@ -40,6 +40,23 @@ namespace Helper
             else
                 return false;
         }
+        public static bool txtLargo(TextBox txt, int largoMaximo)
+        {
+            if (txt.TextLength >= largoMaximo)
+            {
+                return true;
+            }
+            else
+                return false;
+        }
 
+        public static bool dineroMaximo(TextBox txt)
+        {
+            decimal aux = 0;
+            if (decimal.TryParse(txt.Text, out aux))
+                return false;
+            else 
+                return true;
+        }
     }
 }

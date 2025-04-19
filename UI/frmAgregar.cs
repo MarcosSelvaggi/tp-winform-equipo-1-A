@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
@@ -335,13 +336,23 @@ namespace UI
                 errorP.SetError(txtPrecio, "Solo números positivos.");
             else
                 errorP.Clear();
+
+            if (Validadores.dineroMaximo(txtPrecio))
+            {
+                errorP.SetError(txtPrecio, "Se ha superado el valor máximo posible");
+            }
+            else
+                errorP.Clear();
         }
 
         private void txtCodigo_Leave(object sender, EventArgs e)
         {
 
             if (Validadores.txtVacio(txtCodigo))
-                errorP.SetError(txtCodigo, "No puede quedar vacío.");
+            {
+                errorP.SetError(txtCodigo, "No puede quedar vacío o superar los 50 caracteres.");
+                MessageBox.Show("Error");
+            }
             else
                 errorP.Clear();
 
@@ -361,6 +372,10 @@ namespace UI
                 errorP.SetError(txtPrecio, "No puede quedar vacío");
             else
                 errorP.Clear();
+            if (Validadores.dineroMaximo(txtPrecio))
+                errorP.SetError(txtPrecio, "Se ha superado el valor máximo");
+            else 
+                errorP.Clear();
         }
 
         private void txtDescripcion_Leave(object sender, EventArgs e)
@@ -376,27 +391,32 @@ namespace UI
             bool camposValidos = true;
             errorP.Clear();
 
-            if (Validadores.txtVacio(txtCodigo))
+            if (Validadores.txtVacio(txtCodigo) || Validadores.txtLargo(txtCodigo, 50))
             {
-                errorP.SetError(txtCodigo, "No puede quedar vacío.");
+                errorP.SetError(txtCodigo, "No puede quedar vacío ni superar los 50 caracteres.");
                 camposValidos = false;
             }
 
-            if (Validadores.txtVacio(txtNombre))
+            if (Validadores.txtVacio(txtNombre) || Validadores.txtLargo(txtNombre, 50))
             {
-                errorP.SetError(txtNombre, "No puede quedar vacío.");
+                errorP.SetError(txtNombre, "No puede quedar vacío ni superar los 50 caracteres.");
                 camposValidos = false;
             }
 
-            if (Validadores.txtVacio(txtDescripcion))
+            if (Validadores.txtVacio(txtDescripcion) || Validadores.txtLargo(txtDescripcion, 150))
             {
-                errorP.SetError(txtDescripcion, "No puede quedar vacío.");
+                errorP.SetError(txtDescripcion, "No puede quedar vacío ni superar los 150 caracteres.");
                 camposValidos = false;
             }
 
-            if (Validadores.txtVacio(txtPrecio))
+            if (Validadores.txtVacio(txtPrecio) || Validadores.dineroMaximo(txtPrecio))
             {
-                errorP.SetError(txtPrecio, "No puede quedar vacío.");
+                errorP.SetError(txtPrecio, "No puede quedar vacío ni superar el valor máximo permitido.");
+                camposValidos = false;
+            }
+            if (Validadores.txtLargo(txtRutaImagen, 1000)) 
+            {
+                errorP.SetError(txtDescripcion, "No puede superar los 1000 caracteres.");
                 camposValidos = false;
             }
             return camposValidos;
@@ -416,5 +436,84 @@ namespace UI
             }
         }
 
+        private void txtCodigo_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (Validadores.txtLargo(txtCodigo, 50))
+            {
+                if (e.KeyChar == (char)Keys.Back)
+                {
+                    e.Handled = false;
+                }
+                else
+                {
+                    e.Handled = true;
+                    errorP.SetError(txtCodigo, "No se pueden superar los 50 caracteres.");
+                }
+            }
+            else
+            {
+                errorP.Clear();
+            }
+        }
+
+        private void txtNombre_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (Validadores.txtLargo(txtNombre, 50))
+            {
+                if (e.KeyChar == (char)Keys.Back)
+                {
+                    e.Handled = false;
+                }
+                else
+                {
+                    e.Handled = true;
+                    errorP.SetError(txtCodigo, "No se pueden superar los 50 caracteres.");
+                }
+            }
+            else
+            {
+                errorP.Clear();
+            }
+        }
+
+        private void txtDescripcion_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (Validadores.txtLargo(txtDescripcion, 150))
+            {
+                if (e.KeyChar == (char)Keys.Back)
+                {
+                    e.Handled = false;
+                }
+                else
+                {
+                    e.Handled = true;
+                    errorP.SetError(txtCodigo, "No se pueden superar los 150 caracteres.");
+                }
+            }
+            else
+            {
+                errorP.Clear();
+            }
+        }
+
+        private void txtRutaImagen_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (Validadores.txtLargo(txtRutaImagen, 1000))
+            {
+                if (e.KeyChar == (char)Keys.Back)
+                {
+                    e.Handled = false;
+                }
+                else
+                {
+                    e.Handled = true;
+                    errorP.SetError(txtCodigo, "No se pueden superar los 1000 caracteres.");
+                }
+            }
+            else
+            {
+                errorP.Clear();
+            }
+        }
     }
 }
