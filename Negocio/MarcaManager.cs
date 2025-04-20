@@ -22,7 +22,15 @@ namespace Negocio
                 {
                     Marca aux = new Marca();
                     aux.Id = (int)conexion.Lector["Id"];
-                    aux.Descripcion = (string)conexion.Lector["Descripcion"];
+                    try
+                    {
+                        aux.Descripcion = (string)conexion.Lector["Descripcion"];
+                    }
+                    catch (Exception)
+                    {
+                        aux.Descripcion = "Error al leer la marca";
+                    }
+                    //aux.Descripcion = (string)conexion.Lector["Descripcion"];
 
                     listaMarcas.Add(aux);
                 }

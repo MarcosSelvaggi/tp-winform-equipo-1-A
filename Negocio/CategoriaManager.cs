@@ -25,7 +25,24 @@ namespace Negocio
                 {
                     Categoria aux = new Categoria();
                     aux.Id = (int)conexion.Lector["Id"];
-                    aux.Descripcion = (string)conexion.Lector["Descripcion"];
+                    try
+                    {
+                        aux.Descripcion = (string)conexion.Lector["Descripcion"];
+                    }
+                    catch (Exception)
+                    {
+                        aux.Descripcion = "Error al leer la categoría";
+                    }
+                    /*
+                    if ((string)conexion.Lector["Descripcion"] == null)
+                    {
+                        aux.Descripcion = "Error al leer la categoría"; 
+                    }
+                    else
+                    {
+                        aux.Descripcion = (string)conexion.Lector["Descripcion"];
+                    }
+                    */
                     listaCategorias.Add(aux);
                 }
             }

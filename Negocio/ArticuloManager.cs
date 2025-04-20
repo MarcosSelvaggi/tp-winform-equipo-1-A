@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -48,9 +49,15 @@ namespace Negocio
                     Articulo aux = new Articulo();
                     
                     aux.Id = (int)conexion.Lector["Id"];
+                    aux.Codigo = leerDatosDeLaBD(conexion.Lector, "Codigo", "Código erroneo");
+                    aux.Nombre = leerDatosDeLaBD(conexion.Lector, "Nombre", "Nombre erroneo");
+                    aux.Descripcion = leerDatosDeLaBD(conexion.Lector, "Descripción", "Descripción erronea");
+                    
+                    /*
                     aux.Codigo = (string)conexion.Lector["Codigo"];
                     aux.Nombre = (string)conexion.Lector["Nombre"];
                     aux.Descripcion = (string)conexion.Lector["Descripcion"];
+                    */
                     /*aux.Categoria.Id = (int)conexion.Lector["IdCategoria"] - 1;                    
                     if (aux.Categoria.Id < listaCategorias.Count())
                     {
@@ -70,7 +77,7 @@ namespace Negocio
                         aux.Marca.Descripcion = "Error al cargar la Marca.";
                     }*/
 
-                    
+
                     int idCategoria = (int)conexion.Lector["IdCategoria"];
                     aux.Categoria.Id = idCategoria;
                     bool encontroCategoria = false;
@@ -106,7 +113,15 @@ namespace Negocio
                     if (!encontroMarca)
                         aux.Marca.Descripcion = "Error al cargar la Marca.";
 
-                    aux.Precio = Decimal.Parse(conexion.Lector["Precio"].ToString());
+                    try
+                    {
+                        aux.Precio = Decimal.Parse(conexion.Lector["Precio"].ToString());
+                    }
+                    catch (Exception)
+                    {
+                        aux.Precio = -1;    
+                    }
+                    //aux.Precio = Decimal.Parse(conexion.Lector["Precio"].ToString());
 
                     listaArticulos.Add(aux);
                 }
@@ -121,6 +136,18 @@ namespace Negocio
             }
 
             return listaArticulos;
+        }
+
+        private string leerDatosDeLaBD(SqlDataReader lector, string valor, string valorEnCasoDeError)
+        {
+            try
+            {
+                return (string)lector[valor];
+            }
+            catch (Exception)
+            {
+                return valorEnCasoDeError;
+            }
         }
 
         public void agregarArticuloEImagenes(Articulo articulo, List<string> imagenesUrls)
