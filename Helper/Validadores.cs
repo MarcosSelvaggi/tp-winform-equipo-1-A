@@ -50,11 +50,17 @@ namespace Helper
                 return false;
         }
 
-        public static bool dineroMaximo(TextBox txt)
+        public static bool dineroMaximo(TextBox txt, decimal valorMaximo)
         {
             decimal aux = 0;
             if (string.IsNullOrEmpty(txt.Text) || decimal.TryParse(txt.Text, out aux))
+            {
+                if (aux > valorMaximo)
+                {
+                    return true;
+                }
                 return false;
+            }
             else
                 return true;
         }

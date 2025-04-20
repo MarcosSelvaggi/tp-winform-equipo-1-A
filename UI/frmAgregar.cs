@@ -25,6 +25,8 @@ namespace UI
 
         private string ubicacionDeImagenes = @"..\..\..\Imagenes\Articulos";
 
+        private decimal precioMaximo = 99999999999;
+
         List<string> listaArchivosEliminados = new List<string> { };
 
         public frmAgregar()
@@ -279,7 +281,7 @@ namespace UI
             }
 
             string ruta = urlImagen.ToUpper();
-            if (!(ruta.Contains("HTTP") || ruta.Contains("HTTPS") || ruta.Contains("WWW.") || ruta[1] == ':' && ruta[2] == '\\'))
+            if (!(ruta.Contains("HTTP://") || ruta.Contains("HTTPS://") || ruta.Contains("WWW.") || ruta[1] == ':' && ruta[2] == '\\'))
             {
                 MessageBox.Show("La ruta ingresada no es válida o no corresponde a una imagen.", "Ruta inválida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -336,7 +338,7 @@ namespace UI
                 errorP.SetError(txtPrecio, "Solo números positivos.");
             //else
             //    errorP.Clear();
-            else if(Validadores.dineroMaximo(txtPrecio))
+            else if(Validadores.dineroMaximo(txtPrecio, precioMaximo))
             {
                 errorP.SetError(txtPrecio, "Se ha superado el valor máximo posible");
             }
@@ -371,7 +373,7 @@ namespace UI
                 errorP.SetError(txtPrecio, "No puede quedar vacío");
             //else
             //errorP.Clear();
-            else if (Validadores.dineroMaximo(txtPrecio))
+            else if (Validadores.dineroMaximo(txtPrecio, precioMaximo))
                 errorP.SetError(txtPrecio, "Se ha superado el valor máximo");
             else 
                 errorP.Clear();
@@ -408,7 +410,7 @@ namespace UI
                 camposValidos = false;
             }
 
-            if (Validadores.txtVacio(txtPrecio) || Validadores.dineroMaximo(txtPrecio))
+            if (Validadores.txtVacio(txtPrecio) || Validadores.dineroMaximo(txtPrecio, precioMaximo))
             {
                 errorP.SetError(txtPrecio, "No puede quedar vacío ni superar el valor máximo permitido.");
                 camposValidos = false;

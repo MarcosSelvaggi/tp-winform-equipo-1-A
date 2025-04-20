@@ -55,12 +55,12 @@ namespace UI
                 }
 
                 ArticuloManager articuloManager = new ArticuloManager();
-                MessageBox.Show("Se ha eliminado " + articuloManager.eliminarArticulo(articuloAux, imagenesDelProducto ) + " artículo");
+                MessageBox.Show("Se ha eliminado " + articuloManager.eliminarArticulo(articuloAux, imagenesDelProducto ) + " artículo.");
                 articuloEliminado = true;
             }
             catch (Exception)
             {
-                MessageBox.Show("Hubo un error al eliminar el producto"); 
+                MessageBox.Show("Hubo un error al eliminar el producto."); 
             }
             finally
             {
