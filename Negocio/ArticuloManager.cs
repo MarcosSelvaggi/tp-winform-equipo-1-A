@@ -119,7 +119,7 @@ namespace Negocio
                     }
                     catch (Exception)
                     {
-                        aux.Precio = -1;    
+                        aux.Precio = 0;    
                     }
                     //aux.Precio = Decimal.Parse(conexion.Lector["Precio"].ToString());
 
