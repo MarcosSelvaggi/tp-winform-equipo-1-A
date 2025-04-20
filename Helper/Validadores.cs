@@ -53,9 +53,9 @@ namespace Helper
         public static bool dineroMaximo(TextBox txt)
         {
             decimal aux = 0;
-            if (decimal.TryParse(txt.Text, out aux))
+            if (string.IsNullOrEmpty(txt.Text) || decimal.TryParse(txt.Text, out aux))
                 return false;
-            else 
+            else
                 return true;
         }
     }

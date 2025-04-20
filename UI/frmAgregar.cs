@@ -334,10 +334,9 @@ namespace UI
             bool validar = Validadores.txtSoloNumeros(txtPrecio, e);
             if (!validar)
                 errorP.SetError(txtPrecio, "Solo números positivos.");
-            else
-                errorP.Clear();
-
-            if (Validadores.dineroMaximo(txtPrecio))
+            //else
+            //    errorP.Clear();
+            else if(Validadores.dineroMaximo(txtPrecio))
             {
                 errorP.SetError(txtPrecio, "Se ha superado el valor máximo posible");
             }
@@ -350,8 +349,8 @@ namespace UI
 
             if (Validadores.txtVacio(txtCodigo))
             {
-                errorP.SetError(txtCodigo, "No puede quedar vacío o superar los 50 caracteres.");
-                MessageBox.Show("Error");
+                errorP.SetError(txtCodigo, "No puede quedar vacío.");
+                //MessageBox.Show("Error");
             }
             else
                 errorP.Clear();
@@ -370,9 +369,9 @@ namespace UI
         {
             if (Validadores.txtVacio(txtPrecio))
                 errorP.SetError(txtPrecio, "No puede quedar vacío");
-            else
-                errorP.Clear();
-            if (Validadores.dineroMaximo(txtPrecio))
+            //else
+            //errorP.Clear();
+            else if (Validadores.dineroMaximo(txtPrecio))
                 errorP.SetError(txtPrecio, "Se ha superado el valor máximo");
             else 
                 errorP.Clear();
@@ -467,7 +466,7 @@ namespace UI
                 else
                 {
                     e.Handled = true;
-                    errorP.SetError(txtCodigo, "No se pueden superar los 50 caracteres.");
+                    errorP.SetError(txtNombre, "No se pueden superar los 50 caracteres.");
                 }
             }
             else
@@ -487,7 +486,7 @@ namespace UI
                 else
                 {
                     e.Handled = true;
-                    errorP.SetError(txtCodigo, "No se pueden superar los 150 caracteres.");
+                    errorP.SetError(txtDescripcion, "No se pueden superar los 150 caracteres.");
                 }
             }
             else
@@ -507,7 +506,7 @@ namespace UI
                 else
                 {
                     e.Handled = true;
-                    errorP.SetError(txtCodigo, "No se pueden superar los 1000 caracteres.");
+                    errorP.SetError(txtRutaImagen, "No se pueden superar los 1000 caracteres.");
                 }
             }
             else
