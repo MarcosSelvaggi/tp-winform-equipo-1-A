@@ -51,7 +51,7 @@ namespace Negocio
                     aux.Id = (int)conexion.Lector["Id"];
                     aux.Codigo = leerDatosDeLaBD(conexion.Lector, "Codigo", "Código erroneo");
                     aux.Nombre = leerDatosDeLaBD(conexion.Lector, "Nombre", "Nombre erroneo");
-                    aux.Descripcion = leerDatosDeLaBD(conexion.Lector, "Descripción", "Descripción erronea");
+                    aux.Descripcion = leerDatosDeLaBD(conexion.Lector, "Descripcion", "Descripción erronea");
                     
                     /*
                     aux.Codigo = (string)conexion.Lector["Codigo"];
