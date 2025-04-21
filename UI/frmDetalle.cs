@@ -30,7 +30,7 @@ namespace UI
             {
                 lblCodigo.Text = articulo.Codigo;
                 lblNombre.Text = articulo.Nombre;
-                lblDescripcion.Text = articulo.Descripcion;
+                txtDescripcion.Text = articulo.Descripcion;
                 lblPrecio.Text = articulo.Precio.ToString();
                 lblMarca.Text = articulo.Marca.Descripcion.ToString();
                 lblCategoria.Text = articulo.Categoria.Descripcion.ToString();

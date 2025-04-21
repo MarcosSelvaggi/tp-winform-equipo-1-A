@@ -22,6 +22,7 @@ namespace UI
         public bool SeGuardoElArticulo { get; set; } = false;
         public bool articuloActualizado { get; set; } = false;
         private bool seCargoImagenLocal { get; set; } = false;
+        private bool imagenSinExtensionSirve = true;
 
         private string ubicacionDeImagenes = @"..\..\..\Imagenes\Articulos";
 
@@ -290,9 +291,15 @@ namespace UI
             string extension = Path.GetExtension(urlImagen).ToLower();
             if (!extensionesValidas.Contains(extension))
             {
-                MessageBox.Show("La URL debe ser una imagen válida con una extensión como .jpg, .png o .gif", "Extensión inválida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
+                DialogResult respuesta;
+                respuesta = MessageBox.Show("La imagen no tiene una extensión valida (.jpg, .png o .gif). ¿Desea agregarla de todas formas?", "Extensión desconocida", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (respuesta == DialogResult.No)
+                {
+                    return;
+                }
             }
+
             if (!lbxImagenes.Items.Contains(urlImagen))
             {
                 lbxImagenes.Items.Add(urlImagen);
